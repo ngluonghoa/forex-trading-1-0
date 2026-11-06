@@ -1,6 +1,6 @@
-# Forex M1 status — GitHub main / M1/P0.2 source-calendar and DST contracts
+# Forex M1 status — GitHub main / M1/P0.3 source clock and BID/ASK provenance contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.19 §29. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.20 §30. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -18,6 +18,14 @@
 
 ## Missing gates
 No true entitlement/vendor source verification, independent TZDB/calendar attestation, licensed historical BID/ASK, strategy predicates B2/S2 or other executable zone detectors, feed costs/fill/SL/TP, Backtest/OOS, runtime/cache, actual operational rollback or LKG. `FX-DC-01..08`, `FX-VR-01..20` and `TEST-TPX-01..32` formal test sets are not declared PASS merely because 97 synthetic tests pass. GitHub main currently reported protected=false; manual PR/CI governance is used but an enforced review rule is NOT verified (private repo ruleset plan limitations).
+
+
+## M1/P0.3 — TZif byte pin and BID/ASK source coherence (2026-11-07)
+- GitHub [PR #7](https://github.com/ngluonghoa/forex-trading-1-0/pull/7) source SHA `f466b491c4183236b1faa0d355f3c89646203ec9` squash merged `main` SHA `556b904124f378a8b8e1a78590b4d634d22ae16b`.
+- Actual GitHub Actions [PR 42274337404](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42274337404) and [MAIN 42274433483](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42274433483) completed SUCCESS: Python 3.11 **133/133**, Python 3.12 **133/133** synthetic unittest PASS per run, compileall successful.
+- Added typed `TzifArtifact` SHA-256 integrity and `ZoneInfo.from_file` exact pinned **synthetic** TZif bytes, as-of and DST-gap/overlap reject gates; local bytes are NOT an official tzdb release nor authenticated provider policy. Added `BidAskSourceManifest` and `assess_bid_ask_side_pair` for provider, source-side, calendar, interval, revision and first-known checks.
+- No independent vendor-source rights, official timezone signature/production tzdb lock, tick-align BID/ASK fills, financial Backtest/OOS, detector, release or LKG. A declared dataset hash is not independently verified without actual source bytes/rights. `permission_to_trade` is always false.
+- New controlled source snapshot: Google Drive 00 Master Handoff v0.20 §30 (see [manifest](HANDOFF_SNAPSHOT_MANIFEST.md)); 02 Master Spec remains v0.8 unchanged. Docs PR main merge/CI must be checked separately.
 
 ## Documentation policy
 Canonical editable 00_MASTER_HANDOFF v0.19 §29 and 02_MASTER_SPEC v0.8 are on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
