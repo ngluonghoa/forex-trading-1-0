@@ -1,20 +1,29 @@
-# Forex M1 status: independent GitHub repo foundation
+# Forex M1 — Verified GitHub engineering checkpoint (2026-11-07)
 
-## Proven engineering results (2026-11-07, Asia/Ho_Chi_Minh)
+## Source authority and project boundary
+- Canonical editable Handoff: [Google Drive 00 v0.18 §28](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit); business rules: [02 Master Spec v0.8](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit).
+- Code owner: [private GitHub Forex repo](https://github.com/ngluonghoa/forex-trading-1-0), separate from Swing Trading. MOCHI optional and NOT used; M15001 expressly prohibited.
 
-Private repo: https://github.com/ngluonghoa/forex-trading-1-0, owner `ngluonghoa`, default branch `main`. Swing project untouched; MOCHI optional/offline, M15001 NOT AUTHORIZED.
+## Actual code + CI evidence
+| Milestone | PR / merge | PR Actions | Main Actions |
+| --- | --- | --- | --- |
+| M1 bootstrap / read-only DTOs | [#1](https://github.com/ngluonghoa/forex-trading-1-0/pull/1), `59c7ebf1f7fb99d817c6a702944acadaf9c33fd7` | [42267449139](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42267449139) PASS 41/41 each Python 3.11/3.12 | [42267577979](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42267577979) SUCCESS, both versions |
+| Full 00/02 text snapshot | [#2](https://github.com/ngluonghoa/forex-trading-1-0/pull/2), `7dfd70b1c7651ca41b20b132e331515a7592e4d1` | [42268428672](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42268428672) PASS | [42268493022](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42268493022) SUCCESS, both versions |
+| M1/P0.1 market bar first-known/revision gates | [#3](https://github.com/ngluonghoa/forex-trading-1-0/pull/3), `de6cc28a998ef60d7bcb041c0e091cfd543bda41` | [42269509799](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42269509799) PASS **68/68 each Python 3.11/3.12** | [42269624491](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42269624491) PASS **68/68 each Python 3.11/3.12** |
 
-- Source PR #1: https://github.com/ngluonghoa/forex-trading-1-0/pull/1
-- Failed branch Actions first attempt 42267350324 — Python 3.11/3.12 catalog type-name NameError. Root cause repaired in commit `a94a16f7c05caa4a77b3ea1d5426a9154aee080a`.
-- Successful FINAL PR Actions https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42267449139 — Python 3.11: 41/41 synthetic tests PASS; Python 3.12: 41/41 synthetic tests PASS. Compileall PASS both.
-- PR #1 squash merged main SHA `59c7ebf1f7fb99d817c6a702944acadaf9c33fd7`. Main README and merged commit inspected.
-- **Post-merge MAIN GitHub Actions CI:** NOT INDEPENDENTLY VERIFIED (PR-focused connector run lookup). Do not claim main CI passed.
-- Full extracted-text Drive 00/02 snapshots added in a separate docs branch, with exact-match source readback. See [snapshot manifest](HANDOFF_SNAPSHOT_MANIFEST.md); main snapshot merge/CI requires separate verification.
+All tests are **synthetic** with read-only typed fixtures. They do not constitute market performance tests, broker/license validation or full formal FX-DC/FX-VR acceptance.
 
-## M1 scope that exists
-Typed frozen Python DTOs, 18 design labels/15 entry candidate classification, four action-intents/quote sides, UTC first-known and quality guards, display status vocab, pipeline stages, full-profile fingerprint and READ-ONLY rollback compatibility preview. Neither `assess_rollback()` nor `can_publish_full_analysis()` grants market/trade eligibility.
+## Implemented, not operational
+1. Immutable typed enums / frozen DTOs for LONG/SHORT, four action intents, stage and display status, 18 design labels: 7 entry LONG + 8 entry SHORT + B7 watch + S3/S8 protective; research-only FX-B9 excluded.
+2. Four direction-correct indicative bid/ask mappings, UTC event / first-known / source quality and age fail-closed controls; no broker orders.
+3. 8 named pipeline stages and version-profile SHA256 identity / conservative rollback preview (no actual rollback/release).
+4. M1/P0.1 Observation source lineage and SHA256 shape; MarketBarKey time range/calendar/side; OHLC Decimal validation; OPEN/CLOSED, COVERAGE, QUALITY dimensions; no future-correction lookahead; only closed complete quality-checked M15 technical input and explicitly gated M5 early branch. MID never a fill, quality is not a license. **No confirmed signal / trade authorization** emitted.
 
-## Not yet implemented or tested
-Actual calibrated B2/S2 or other zone predicates, licensed historical FX BID/ASK coverage and revisions, real entry/exit/SL/TP/cost/financing fill simulator, real Backtest and OOS/walk-forward, persistent cache/runtime/backup restore drill, full formal FX-VR-01..20 and TEST-TPX-01..32, branch protection/ruleset, production release tag or LKG.
+## Not ready
+- Source entitlement, historical tick/M1/M5/M15 BID/ASK validation (including coverage/revision, UTC/DST/rollover, provider rights to store/derive/backtest), validated venue calendar.
+- Quantitative/causal B2 LONG/S2 SHORT or other detector rules, dedup, risk/economically feasible entry/SL/TP, simulator and common-core replay.
+- Backtest with costs, untouched OOS, full FX-DC-01..08, FX-VR-01..20, TEST-TPX-01..32 acceptance, persistent cache, actual release/LKG or operational rollback drill.
+- GitHub branch enforcement: integration read of branch protection returned 403; private rulesets reported GitHub Pro/public requirement. Repo remains PRIVATE; manual PR+CI is observed, automated enforcement NOT VERIFIED.
+- Latest Docs Handoff v0.18 point-in-time snapshot is staged on a docs PR, not canonical editable truth and must be independently checked after merge.
 
-**Next:** verify main post-merge CI and docs PR main readback; extend temporal and source-quality contract with synthetic tests, pin and review dependency/action supply chain, configure branch controls if GitHub plan supports, then qualify data source M2 before starting trading-detector M3.
+**Next:** close latest docs snapshot PR with CI and main exact readback; strengthen source clock DST/calendar and as-of negative/equivalence tests, then M2 source-rights qualification before M3 calibrated detector and M4 real Backtest.
