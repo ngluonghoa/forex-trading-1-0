@@ -1,6 +1,6 @@
 # Forex M1 status — GitHub main / M1/P0.3 source clock and BID/ASK provenance contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.20 §30. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.21 §31. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -26,6 +26,15 @@ No true entitlement/vendor source verification, independent TZDB/calendar attest
 - Added typed `TzifArtifact` SHA-256 integrity and `ZoneInfo.from_file` exact pinned **synthetic** TZif bytes, as-of and DST-gap/overlap reject gates; local bytes are NOT an official tzdb release nor authenticated provider policy. Added `BidAskSourceManifest` and `assess_bid_ask_side_pair` for provider, source-side, calendar, interval, revision and first-known checks.
 - No independent vendor-source rights, official timezone signature/production tzdb lock, tick-align BID/ASK fills, financial Backtest/OOS, detector, release or LKG. A declared dataset hash is not independently verified without actual source bytes/rights. `permission_to_trade` is always false.
 - New controlled source snapshot: Google Drive 00 Master Handoff v0.20 §30 (see [manifest](HANDOFF_SNAPSHOT_MANIFEST.md)); 02 Master Spec remains v0.8 unchanged. Docs PR main merge/CI must be checked separately.
+
+
+## M2/P0.1 — Source data rights and public capability (2026-11-07)
+- Code [PR #9](https://github.com/ngluonghoa/forex-trading-1-0/pull/9), source commit `ca9c06a6f94a1b7828303ca4a1c0251cf77b004d`, main merge `0345a9f7d158de1d04148ee9ac7b317a214b27a3`. Public documentation and policy evidence in [M2_P01_SOURCE_RIGHTS_REVIEW](M2_P01_SOURCE_RIGHTS_REVIEW.md).
+- [PR CI 42277238158](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42277238158) and [main CI 42277351212](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42277351212): **167/167 synthetic tests per Python 3.11 and 3.12, PASS**, compileall PASS.
+- `PublicCapabilityClaim` distinguishes historical native 2-sided BID+ASK from generic OHLC or snapshots and requires M1/M5/M15 plus timestamps/account-price basis. `UseRightsClaim` tracks access, storage, derivatives, replay, backtest, cache (redistribution independent) and blocks missing/denied/expired/future/unproved account grants.
+- `assess_source_for_m2_review` can mark supplied CLAIM records ready for external legal/account review. `vendor_entitlement_independently_verified`, `may_ingest_real_data`, `may_cache_or_store_real_data`, `may_run_real_backtest` **always False**. No actual vendor account contract, license, native BID/ASK historical source, source sample/revision or real market Backtest has been validated.
+- Official technical candidate documentation: OANDA v20 historical BID/ASK candle support but historical/account-price mismatch warning, Dukascopy historical ticks/bar side, Twelve Data Forex generic OHLC with native two-sided historical price support not independently established. API connection/quota does NOT imply retention or backtest rights.
+- **M2 verdict: PUBLIC_CAPABILITY_RESEARCH_ONLY / RIGHTS_AND_NATIVE_BIDASK_NOT_QUALIFIED**. Do not promote vendor or indicator/detector to ready, no data retrieval/storage, no real trading.
 
 ## Documentation policy
 Canonical editable 00_MASTER_HANDOFF v0.19 §29 and 02_MASTER_SPEC v0.8 are on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
