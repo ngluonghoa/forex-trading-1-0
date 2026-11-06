@@ -1,6 +1,8 @@
 """The approved design taxonomy, NOT executable signal predicates."""
 from collections import Counter
-from .model import ZoneDefinition, ZonePurpose as P
+from .model import ZoneDefinition, ZonePurpose
+
+P = ZonePurpose
 
 ZONES: tuple[ZoneDefinition, ...] = (
     ZoneDefinition("B1", "F1_MAJOR_REVERSAL", P.ENTRY_LONG_CANDIDATE),
