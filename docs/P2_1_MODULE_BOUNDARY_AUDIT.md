@@ -31,6 +31,28 @@ Observed shortest dependency chain:
 - scan_selection -> synthetic_scan_workload
 - synthetic_drive_cache_staging -> scan_selection -> synthetic_scan_workload
 
+### Focused import diagram (verified source edges)
+```mermaid
+flowchart TD
+  STORE["synthetic_drive_cache_staging.py"] --> SEL["scan_selection.py"]
+  SEL --> SWEEP["synthetic_scan_workload.py"]
+  SWEEP --> CACHE["cache_core.py"]
+  STORE --> CACHE
+  CACHE --> BARS["market_data.py"]
+  BARS --> QUOTES["quotes.py"]
+  QUOTES --> MODEL["model.py"]
+```
+
+### Target boundary after future PR A (not implemented)
+```mermaid
+flowchart TD
+  CONTRACT["scan_contract.py: selection types and plan"]
+  SHIM["scan_selection.py: compatibility exports + fixture runner"] --> CONTRACT
+  SHIM --> SYNTH["synthetic_scan_workload.py"]
+  STAGING["synthetic_drive_cache_staging.py: unchanged in PR A"] --> SHIM
+  FUTURE["Future real scan orchestrator (not implemented)"] --> CONTRACT
+```
+
 Note: arrows in this section mean "imports", not data flow. No cycle was observed among these inspected edges. There is no evidence here that all other modules are cycle-free.
 
 ## 3. Findings
