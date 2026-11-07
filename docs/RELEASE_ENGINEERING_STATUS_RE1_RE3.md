@@ -1,12 +1,12 @@
-# Release Engineering status — Forex Trading 1.0 (RE1–RE3)
+# Release Engineering status — Forex Trading 1.0 (RE1–RE4a)
 
-**Verified 2026-11-08 (Asia/Ho_Chi_Minh).** This is a read-only technical evidence register, not a release or a Forex trading entitlement. Current GitHub source/CI main after RE3: `917cff60c1e1100319d43d771971af5ebe27f1ab`.
+**Verified 2026-11-08 (Asia/Ho_Chi_Minh).** This is a read-only technical evidence register, not a release or a Forex trading entitlement. Current GitHub source/CI main after RE4a: `9d7b2aabbd65375d825e9797f09349179eec9503`.
 
 ## Canonical authorities
 
-- [Google Drive 00 Master Handoff v0.44 §54](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) — current checkpoint and NEXT.
-- [Google Drive 06 QA v0.59 §74](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit) — independent code/CI evidence.
-- [Google Drive 10 Release / Rollback Standard v1.4 §16](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit) — release, LKG and rollback policy.
+- [Google Drive 00 Master Handoff v0.45 §55](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) — current checkpoint and NEXT.
+- [Google Drive 06 QA v0.60 §75](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit) — independent code/CI evidence.
+- [Google Drive 10 Release / Rollback Standard v1.5 §17](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit) — release, LKG and rollback policy.
 - [Google Drive 02 Master Spec v0.11 §26](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit) — unchanged business authority.
 - Historical original user-approved rollback checkpoint M2/P0.10: `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` (not the current source HEAD).
 
@@ -30,7 +30,8 @@
 | Same-run repeated wheel hash parity | **Verified in RE3 CI** | Cross-host and frozen build environment, signed provenance |
 | Full candidate profile + nine release gate *claims* | **Implemented read-only** | Independent verification of every gate, owner authorization; no ability to make a release through this contract |
 | Rollback of code through reviewed revert PR | **Historically practiced** | Actual DB/cache/schema/positions reconciliation, approved LKG and restore drill |
-| Ruff, strict typing, security/dependency/secret scanner | **Not fully implemented** | RE4 independent targeted checks, baseline exceptions and fail-closed checks |
+| Ruff critical syntax/undefined-name rules | **Implemented RE4a**, CI PASS | Pinned Ruff E9/F63/F7/F82; not full Ruff rules |
+| Strict typing, full Ruff, vulnerability/secret scan | **Not fully implemented** | Separate RE4b/RE4c PRs and baseline-safe scope |
 | GitHub main protection/rulesets | **Not independently verified** | Explicit GitHub settings/ruleset assessment and protections |
 | Production Forex source, Backtest, OOS, broker | **BLOCKED** | Provider rights/retention, BID/ASK identity, causal data quality, execution/risk and operational approval |
 
@@ -44,9 +45,17 @@ A `CLAIMED_PASS` is a caller string, **not** independently verified evidence. Th
 
 ## Next sequence (independent and reversible)
 
-- **RE4 — quality/security:** introduce baseline-safe lint/type checks, secret/dependency assessment and inspect GitHub branch protection/ruleset requirements. Isolate each as its own PR; do not mass-format unrelated source or weaken test gates to make CI green.
+- **RE4b/RE4c — quality/security:** broaden baseline-safe lint/type checks, secret/dependency assessment and inspect GitHub branch protection/ruleset requirements. Isolate each as its own PR; do not mass-format unrelated source or weaken test gates to make CI green.
 - **RE5 — release reproducibility/provenance:** freeze the toolchain, implement cross-host reproducibility checks, lock provenance, generate verifiable SBOM/signatures without uploading licensed FX data or secrets.
 - **RE6 — restore proof:** read-only synthetic install and rollback rehearsal first, then only with approved real environments/rights/keys a bounded operational restore drill. Verify old/new schema/cache/permissions and broker-state reconciliation; never automatic deployment.
 - **Separate Forex technical lane:** P2.2-C BID/ASK temporal/product identity, P2.2-D causal first-known and P2.2-E calendar/volume/recovery, without activating market data/trading.
 
 **Release status: NO RELEASE APPROVED. NO EXECUTABLE LKG. NO REAL RESTORE. NO BROKER AUTHORITY.**
+
+
+## RE4a implementation addendum — critical static quality (2026-11-08)
+
+- [PR #62](https://github.com/ngluonghoa/forex-trading-1-0/pull/62) MERGED SHA `9d7b2aabbd65375d825e9797f09349179eec9503`. Exactly one file changed: `.github/workflows/ci.yml`; pinned `ruff==0.13.0` with blocking `ruff check --select E9,F63,F7,F82 src tests tools` on the existing Python 3.11/3.12 matrix. No src/test/business/cache changes.
+- [GitHub Actions 42400888711](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42400888711) SUCCESS. Independently inspected logs: Python 3.11 **528/528 tests PASS**, Ruff **All checks passed**, repeated wheel SHA parity true; Python 3.12 **528/528 tests PASS**, Ruff **All checks passed**, repeated wheel SHA parity true.
+- **Still OPEN:** full lint/format/type checking, code/secret/dependency vulnerability scanning, branch/ruleset protection verification, locked build toolchain, signed external provenance, release tags, approved LKG and any operational restore drill. PR CI cannot grant broker/source-data permission or prove performance/Backtest/OOS.
+- Canonical references after this update: native 00 Handoff v0.45 §55; QA v0.60 §75; native 10 Release Standard v1.5 §17; native 02 Master Spec v0.11 §26 unchanged. Source-era M2/P0.10 SHA `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` remains immutable archival rollback.
