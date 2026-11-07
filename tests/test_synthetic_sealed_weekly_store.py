@@ -98,6 +98,19 @@ class SealedWeeklyTest(unittest.TestCase):
         self.assertEqual((r.new_chunk_objects, r.reused_chunk_objects), (1, 2))
         self.assertEqual(self.read(), rows)
 
+    def test_intra_week_history_deletion_blocked(self):
+        self.commit()
+        rows = self.s.closed_bars[:2] + self.s.closed_bars[3:]
+        with self.assertRaises(ValueError):
+            self.commit(snap(rows=rows), head=self.store.head(self.p))
+
+    def test_same_revision_changed_price_blocked(self):
+        self.commit()
+        rows = tuple(bar(i, close="1.16") if i == 2 else bar(i)
+                     for i in range(15))
+        with self.assertRaises(ValueError):
+            self.commit(snap(rows=rows), head=self.store.head(self.p))
+
     def test_select_one_week_only(self):
         self.commit()
         self.assertEqual(self.read(window_ids=("2026-01-12",)),
