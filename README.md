@@ -10,7 +10,7 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.23, latest §33](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.24, latest §34](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.9](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
@@ -37,6 +37,11 @@
 ## M2/P0.3 — Synthetic source adapter and storage proposal only
 - [Source/provider contract & storage review](docs/M2_P03_PROVIDER_DELTA_AND_STORAGE_REVIEW.md): staged OANDA-v20-shaped BID/ASK M1/M5/M15/M30/H1 closed candles, bounded range, UTC/nanosecond precision checks, overlap append/revision/unchanged; no real API calls or provider rights.
 - Proposed durable storage controls and metadata-only generation/hash chain; **no approved persistent cache or host**, no automatic on-demand scan speed metrics. [PR #13](https://github.com/ngluonghoa/forex-trading-1-0/pull/13), [verified main CI 42325743265](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42325743265): 275/275 synthetic tests per Python 3.11/3.12.
+
+## M2/P0.4 — Synthetic 20-pair repeat-scan counters and source custody
+- [Synthetic benchmark/first-seen custody design](docs/M2_P04_SYNTHETIC_SWEEP_AND_CUSTODY.md), [PR #15](https://github.com/ngluonghoa/forex-trading-1-0/pull/15), [main CI 42327843231](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42327843231) **310/310 synthetic tests per Python 3.11/3.12**.
+- Fixture-only 20 fake pair IDs × 2 sides × 5 TF = 200 partitions; counterfactual 1640 full rows vs 120 hypothetical delta rows **if** 160 streams' upstream head tokens can be trusted. These are NOT real source API bytes/latency/calls or proof of 5min automatic polling.
+- Causal receipt chain separates untrusted vendor event-time claims from first-seen-by-us UTC; older silent correction outside overlap remains a production blind spot pending approved vendor revision/deep reconciliation.
 
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
