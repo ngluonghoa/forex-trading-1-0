@@ -1,8 +1,9 @@
 # Source-of-truth and text-snapshot policy
 
-- Canonical **Google Drive Handoff v0.43 §53 (LATEST P2.2-B dual digest PR #56; P2.2-A §52; P2.2 review §51; original M2/P0.10 rollback §48/§40; normative Master Spec v0.11 unchanged)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
+- Canonical **Google Drive Handoff v0.44 §54 (LATEST Release Engineering RE1–RE3 PR #58/#59/#60; P2.2-B §53, P2.2-A §52, original M2/P0.10 rollback §48/§40; 02 Master Spec v0.11 unchanged)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
 - Canonical **Google Drive Master Spec v0.11 §26 (active, EXACT original M2/P0.10 content)**: https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit
-- Canonical Google Drive QA v0.58 §73: https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit
+- Canonical Google Drive QA v0.59 §74: https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit
+- Canonical Google Drive 10 Release/Rollback Standard v1.4 §16: https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit
 - Snapshots in GitHub: [00 text](source-snapshots/00_MASTER_HANDOFF.txt) and [02 text](source-snapshots/02_MASTER_SPEC.txt).
 - Provenance, source revisions and exact-text comparison: [HANDOFF_SNAPSHOT_MANIFEST](HANDOFF_SNAPSHOT_MANIFEST.md).
 
@@ -17,3 +18,5 @@ P2.2 review PR #52 https://github.com/ngluonghoa/forex-trading-1-0/pull/52 merge
 P2.2-A source [PR #54](https://github.com/ngluonghoa/forex-trading-1-0/pull/54) merged squash `026e3defc661098eb5648f4f56b7afb92008721f`; only two new paths source_stream_binding.py and test_source_stream_binding.py, 15 new synthetic tests. PR GitHub Actions 42395599590 Python 3.11/3.12 each 476/476 PASS. Current source remains synthetic-only and source/product rights UNVERIFIED. Next P2.2-B is NOT STARTED. QA §72 is authoritative, postmerge main CI not independently verified.
 
 P2.2-B source [PR #56](https://github.com/ngluonghoa/forex-trading-1-0/pull/56) merged code SHA `92729806442cdd6b2abe6287f8995d5b1a588b61` (two additive paths: synthetic_evidence_lineage.py and 26 new tests). GitHub Actions 42397147771 Python 3.11 and 3.12 each verified 502/502 PASS; read-only synthetic-only dual price/provenance digest and SHA-linked lineage event fixture, no existing cache/runtime modifications. Canonical QA §73; next P2.2-C not yet started. Independent postmerge main push CI unverified; original M2/P0.10 historical source rollback unchanged.
+
+RE1–RE3 current: PR #58 source (immutable ReleaseCandidate and no-action full 12-profile rollback preview) 518 tests each Python, PR #59 pip/wheel artifact smoke 525 each, PR #60 same-run repeated wheel hash under SOURCE_DATE_EPOCH 528 each; merge main after #60 SHA 917cff60c1e1100319d43d771971af5ebe27f1ab. CI Actions 42399783655 produced identical SHA d6b8e5e3dc45c31ad48290386f7817f21886f5c47e47e44d1aaef4c19a1869a6 on repeated builds and both interpreters IN THAT RUN. These are NOT signed releases, a real LKG or operational rollback. [Detailed gate state](RELEASE_ENGINEERING_STATUS_RE1_RE3.md), canonical 10 v1.4 §16, native QA §74. Independent postmerge main-push CI and GitHub branch protection are not independently verified.
