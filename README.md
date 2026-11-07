@@ -1,5 +1,10 @@
 # Forex Trading 1.0
 
+## Current rollback checkpoint — overlapping chats (2026-11-07)
+
+**User-requested Forex rollback:** [PR #39](https://github.com/ngluonghoa/forex-trading-1-0/pull/39) merged `291e9942ae18587781fb7b0ae4d641be010df646` and [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42371889929) **513/513 PASS each Python 3.11/3.12**. It WITHDREW the standalone #31 in-memory weekly cache module/tests/doc and standalone #33 quote-side synthetic Backtest module/tests/doc introduced by an overlapping chat. This is **not** a reset of main: the other conversation's #32 connected encrypted Google Drive synthetic smoke, #36 source normalization, #37 standalone sealed weekly synthetic cache and #38 history/source snapshot remain intact. The three FXWindowRef/FXWindowManifest/FXWindowSync contracts needed by #37 were moved into its module without changing behavior. Old references below to #31/#33 are **history**, not present code, and MUST NOT be used as a plan to restart these changes without new user instruction. Google Drive [canonical Handoff v0.35 §45](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) overrides historical NEXT; Master Spec v0.12 §27 is historical design context pending a coordinated revision. No vendor real data/cache/Backtest/OOS/trading permission was granted.
+
+
 **M1/M2 read-only reference — synthetic engineering only, NO operational market data cache.** This repo is separate from Swing Trading 1.8, FX 2.0, CK 2.0 and Scanner.
 
 ## Engineering model
@@ -10,14 +15,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.34, latest §44](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.35, latest §45](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.12](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.34](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.35](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
