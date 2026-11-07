@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.31 §41. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.33 §43. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -105,3 +105,10 @@ Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 re
 - [Source PR #29](https://github.com/ngluonghoa/forex-trading-1-0/pull/29) merged main `60b3c5bc04ec2484a473739041f62fc825f43ed4`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361442109) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361487088): Python 3.11/3.12 each **472/472 synthetic unit tests** (previous 448 +24).
 - `synthetic_sealed_cache.py` implements AES-256-GCM authenticated encryption of fake bytes with random nonce + AAD binding partition/generation/parent/key ref. In-memory sealed store and mutable in-memory witness simulate stale writer, fail-closed crash/rollback and reused 5→20→1→20 fake scoped cache across fresh session objects; dependency pinned `cryptography==50.0.2`.
 - **NOT a deployed encrypted Google Drive cache.** Previously uploaded 141-byte chunk and 439-byte manifest are still plain synthetic test text. No real cloud encrypted blob, KMS/key custody/rotation, distributed CAS, independently trusted rollback witness or actual process restart verified. Vendor real FX rights/raw historic native BID/ASK, 5-min cloud vendor performance, full L2–L5/backtest OOS still blocked.
+
+
+## M2/P0.12–P0.13 — user-approved cache window+Backtest integration standard, read-only synthetic (2026-11-07)
+- Source [PR #31](https://github.com/ngluonghoa/forex-trading-1-0/pull/31) weekly typed in-memory per-pair/BID/ASK windows, main `18ada5e409e0b548b251b083f391c387918ac3ab`, +21 tests.
+- Parallel source [PR #32](https://github.com/ngluonghoa/forex-trading-1-0/pull/32) actual Google Drive fake AES-GCM envelope 753B + manifest 644B via connector, PUBLIC test key (no confidentiality), main `64cbf630b2f643dcb70d35ef678c2b8c00c475c1`, +20 tests.
+- Source [PR #33](https://github.com/ngluonghoa/forex-trading-1-0/pull/33) quote-side FX fake execution/fees/swap/BID-ASK OHLC ambiguous fill guards, main `34a0b6567f7c105eb54412bab8477e818b52c171`, +26 tests. [Postmerge main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42363465304) 539/539 PASS each 3.11/3.12; source rights, full actual Backtest/OOS, account currency conversions, real broker fills, real 5-min API/Drive savings and trading remain BLOCKED.
+- Canonical Handoff v0.33 §43 embeds ENTIRE current Master Spec v0.12 §27; 06 QA v0.42 §56 source/Drive receipts. GitHub snapshots are point-in-time text exports; maintain exact-source comparisons after any future edit.
