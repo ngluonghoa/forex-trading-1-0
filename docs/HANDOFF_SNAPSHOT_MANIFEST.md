@@ -1,3 +1,16 @@
+# Current exact extracted source snapshot — Forex v0.33 / Spec v0.12 (2026-11-07)
+
+Latest Google Drive policy remains authoritative; historical snapshots preserved below. The two complete GitHub text snapshots on this branch were independently re-fetched and compared **character-for-character** against the connected current native Google Docs extracted text (not layout).
+
+| Native source | GitHub snapshot | Current extracted text |
+| --- | --- | --- |
+| [Handoff v0.33 §43](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) | [00 text](source-snapshots/00_MASTER_HANDOFF.txt), Git blob `772acaf1cc8f4a6caeda1d92dbb5ed6346b22883` | 437097 characters, BRANCH EXACT MATCH |
+| [Master Spec v0.12 §27](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit) | [02 text](source-snapshots/02_MASTER_SPEC.txt), Git blob `0a82ea35d3d2f69cd4364493bdab2198bb724b19` | 69371 characters, BRANCH EXACT MATCH |
+
+Source #31 weekly synthetic within-partition chunks, #32 real encrypted Google Drive **PUBLIC TEST KEY** synthetic smoke, #33 FX synthetic quote-side execution guards are all merged; [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42363465304) **539/539 EACH Python 3.11/3.12**. Handoff §43 embeds complete extracted text of Spec v0.12; historical Spec v0.11 §38 unchanged in prior Handoff. No provider rights, protected key custody, actual encrypted cloud data, full Backtest/OOS or trading claim. Native Docs can change after snapshot capture: re-verify current revisions and full text before stating MAIN exact parity.
+
+---
+
 # Forex Trading 1.0 — canonical full extracted-text snapshot provenance
 
 **Captured:** 2026-11-07 (Asia/Ho_Chi_Minh), after synthetic AES-256-GCM and mock witness/recovery code PR #29. Native Google Drive Docs are canonical for edited policy/Spec/Handoff/QA; private GitHub owns code/CI and frozen text-only point-in-time snapshots.
