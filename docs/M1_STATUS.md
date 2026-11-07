@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.27 §37. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.28 §38. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -63,7 +63,7 @@ No true entitlement/vendor source verification, independent TZDB/calendar attest
 - Neither OANDA/Twelve Data/Dukascopy account rights nor permanent data retention, selected host, real 5-minute active cache, source price correctness, actual 20-pair benchmark, source revision audit, full indicator/parity or Backtest/OOS are verified. MOCHI optional only, not used; M15001 prohibited.
 
 ## Documentation policy
-Canonical editable 00_MASTER_HANDOFF v0.27 §37 and 02_MASTER_SPEC v0.10 §25 remain on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
+Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 remain on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
 
 
 ## M2/P0.6 — Rights invalidation and atomic crash-window synthetic reference (2026-11-07)
@@ -78,3 +78,10 @@ Canonical editable 00_MASTER_HANDOFF v0.27 §37 and 02_MASTER_SPEC v0.10 §25 re
 - Typed mode SINGLE=1, CUSTOM=2–19, ALL=20 using caller-provided 20-pair catalog, all routed to existing synthetic sweep/delta planner; 1 selected pair needs only its own BID/ASK fixture streams; unselected cross-pair history not loaded or invalidated. Missing selected BID/ASK and invalid/duplicate catalog fail closed. Fake counters: 1/3/20 pairs = 10/30/200 streams, NOT source API performance.
 - Full 02 Spec v0.10 is re-embedded in 00 Handoff v0.27 §37; complete GitHub snapshots updated by a separate docs PR with independent exact-match verification.
 - No real provider rights/native BID/ASK, approved encrypted host, 5-minute production scan scheduler, live UI, per-pair speed, L2–L5 production features or Backtest/OOS/trading. No M15001/MOCHI use.
+
+## M2/P0.8 — Google Drive approved destination + 5→20→1→20 synthetic cache (2026-11-07)
+- User DEC-FX-022 (01 Migration Register v0.14 §24); 02 Master Spec v0.11 §26 and 00 Handoff v0.28 §38, with FULL updated Spec embedded in Handoff and separately controlled GitHub snapshots.
+- Drive [staging root](https://drive.google.com/drive/folders/12iWh528iFnfF6zyHBGpI4WFOSrrubmX5), with three child folders for manifests/index, immutable chunks and audit/quarantine, CREATED. **No real price data or live file-backed cache written**. Google Drive is a chosen storage destination, not a running scanner.
+- [Source PR #23](https://github.com/ngluonghoa/forex-trading-1-0/pull/23) main merge `4a8a22aa05283365c904edb9f339004ed9fb79ce`, [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42336926925), [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42336970810): Python 3.11/3.12 **411/411 SYNTHETIC tests per version**, +14.
+- New `synthetic_drive_cache_staging.py` is an in-memory mock: 5→20→1→20 scan reuses 5 first pairs' valid cache, 15 others bootstrap on expansion, no re-writing unchanged chunks after; scoped source reads, source revisions and corrupt-pointer/stale-writer/orphan-crash negative paths. No Google Drive/API/authenticated vendor IO, no cross-session durable file proof or L2–L5 production engine.
+- Account rights for real price/derived data retention and backtest, Drive encrypted storage/key/ACL/region and approved real adapter, authenticated source delta, 5-minute real performance, recovery drill, backtest/OOS remain BLOCKED; no MOCHI/M15001/paid hosting/broker order.
