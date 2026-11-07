@@ -151,10 +151,12 @@ def make_synthetic_generation(
     if previous is not None and not isinstance(previous, SyntheticGenerationManifest):
         raise TypeError("SyntheticGenerationManifest previous required")
     if previous is not None:
-        if previous.partition_fingerprint != snapshot.partition.fingerprint:
-            raise ValueError("CROSS_PARTITION_GENERATION_CHAIN")
+        # Schema change is a migration even though it also changes partition SHA.
+        # Report the more actionable SAFE_MODE reason before generic mismatch.
         if previous.schema_version != snapshot.partition.schema_version:
             raise ValueError("SCHEMA_MIGRATION_REQUIRES_EXPLICIT_REVIEW")
+        if previous.partition_fingerprint != snapshot.partition.fingerprint:
+            raise ValueError("CROSS_PARTITION_GENERATION_CHAIN")
         if previous.created_at_utc > created_at_utc:
             raise ValueError("GENERATION_CLOCK_ROLLBACK")
     generation = 1 if previous is None else previous.generation + 1
