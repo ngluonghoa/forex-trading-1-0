@@ -4,7 +4,7 @@
 
 **Source/test baseline restored to M2/P0.11 [commit #30](https://github.com/ngluonghoa/forex-trading-1-0/commit/aa411515d837e59664cf4a9fdfbe1a3caf7ab5e2).** The 48 files in `src/` and `tests/` have an identical tree to this baseline. Later M2/P0.12, M2/P0.13-DRIVE/EXEC and M2/P0.14 synthetic engineering changes have been withdrawn following the user's overlapping-conversation rollback request, not erased from Git history. See [rollback evidence](docs/FOREX_THREE_MILESTONE_REWIND_20261107.md). The former #32 fake encrypted TESTPAIR00 Drive files have been moved to Audit & Quarantine, not deleted; older #27 smoke retained.
 
-**Development is paused.** Do not treat PRs #31/#32/#33/#37 as currently deployed code or resume them without new user instruction. Canonical Google Drive Handoff will be updated with the final rollback checkpoint; Master Spec v0.12 §27 remains design-only and does not enable withdrawn code. No licensed market data cache, real historical Backtest, broker execution or production release.
+**Development is paused.** Do not treat PRs #31/#32/#33/#37 as currently deployed code or resume them without new user instruction. Canonical Google Drive Handoff v0.36 §46 records the completed rollback; Master Spec v0.12 §27 remains design-only and does not enable withdrawn code. No licensed market data cache, real historical Backtest, broker execution or production release.
 
 **M1/M2 read-only reference — synthetic engineering only, NO operational market data cache.** This repo is separate from Swing Trading 1.8, FX 2.0, CK 2.0 and Scanner.
 
@@ -16,8 +16,8 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.36 (rollback checkpoint), latest §41](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
-- [02 Master Spec v0.11](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
+- [00 Master Handoff v0.36 (rollback checkpoint), latest §46](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [02 Master Spec v0.12 (design only)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
