@@ -73,6 +73,11 @@
 - New offline `synthetic_drive_receipt_validation.py` and regression tests validate the copied connector evidence, folder IDs, content-address names, manifest pointers, MIME, checksums and data-rights fail-closed flags. The validator itself does **not** call Drive; the previously implemented Python Drive wire port remains injected FAKE TRANSPORT, not authenticated real IO.
 - **No actual real FX candles were uploaded.** Cloud file smoke is not a transactional, encrypted, always-on or licensed Smart Cache and does not establish quota/latency at 5-minute 20-pair workload scale. Provider licensing, client-side keys/ACL/region, active manifest CAS/lease/rollback witness and restart recovery remain gates.
 
+## M2/P0.11 — AES-256-GCM sealed synthetic cache and fail-closed recovery
+- [Synthetic AES-256-GCM generation, witness and recovery design](docs/M2_P11_AEAD_SYNTHETIC_RECOVERY_AND_WITNESS.md): 256-bit key supplied at runtime, fresh random 12-byte nonce, authenticated partition/generation/parent/key reference, immutable sealed chunk + generation manifest, explicit stale-writer and tamper rejection.
+- **Only an IN-MEMORY simulated Drive store and IN-MEMORY separate witness.** The demo detects staged crashes, broken pointer/witness, rollback and reopens the same memory state using a different session object. Neither is an authenticated Drive client, durable OS-restart exercise, external anti-rollback witness or distributed CAS.
+- Pins the synthetic security test dependency in `requirements-security-synthetic.txt`. Never place a real secret key in GitHub, Google Docs or a raw cache manifest. The earlier two actual connected Google Drive smoke files are **not encrypted by this milestone**. No real FX quotes, provider cache rights, licensed feed or trading.
+
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
