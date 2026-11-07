@@ -7,7 +7,7 @@ cannot protect against real multi-writer rollback or establish licensing.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from decimal import Decimal
 from hashlib import sha256
@@ -89,7 +89,7 @@ def _pairs(pairs):
     return out
 
 
-_ROW_KEYS = set(_row.__annotations__) if False else {
+_ROW_KEYS = {
     "start", "end", "revision", "known", "open", "high", "low", "close",
     "lifecycle", "coverage", "quality", "stream", "endpoint", "revision_id",
     "raw_sha256", "obs_known", "retrieved", "license",
@@ -213,6 +213,7 @@ class SyntheticSealedWeeklyStore:
         refs = []
         staged: dict[str, SyntheticEncryptedWindow] = {}
         reused = 0
+        changed_refs = 0
         for monday, bars in sorted(groups.items()):
             rows = tuple(bars)
             raw = _pack(partition, monday, rows, snapshot.checked_at_utc)
@@ -225,6 +226,7 @@ class SyntheticSealedWeeklyStore:
                     raise ValueError("REUSED_WEEK_ROWS_MISMATCH")
                 reused += 1
             else:
+                changed_refs += 1
                 if ref.chunk_name in self._objects:
                     if self._read(partition, ref, key=key, key_ref=key_ref,
                                   as_of=snapshot.checked_at_utc) != rows:
@@ -237,7 +239,7 @@ class SyntheticSealedWeeklyStore:
                     )
                     staged[ref.chunk_name] = SyntheticEncryptedWindow(ref, sealed, digest)
             refs.append(ref)
-        if not staged:
+        if not changed_refs:
             return FXWindowSync(0, reused, False)
         # All new objects staged prior to head advance. In-memory only.
         self._objects.update(staged)
