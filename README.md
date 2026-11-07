@@ -10,14 +10,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.33, latest §43](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.34, latest §44](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.12](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.33](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.34](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
@@ -87,6 +87,11 @@
 ## M2/P0.12 + P0.13 — weekly sub-window cache, encrypted fake Drive smoke and FX execution fixture
 
 The cross-project approved engineering standard keeps Forex independent from Vietnam stock trading and preserves native FX BID/ASK, DST, spread/swap and broker semantics. [PR #31](https://github.com/ngluonghoa/forex-trading-1-0/pull/31) added in-memory immutable **weekly sub-windows inside each pair/product/side/TF** partition; new/revised fake week regenerates only one week's mock object. [PR #32](https://github.com/ngluonghoa/forex-trading-1-0/pull/32) independently tested actual connected Google Drive upload/download of a **753-byte encrypted synthetic TESTPAIR00 envelope + 644-byte manifest using an intentionally PUBLIC TEST KEY**. It proves integrity/readback but NOT confidentiality, production encryption/key custody, vendor data entitlements or operational Cache. [PR #33](https://github.com/ngluonghoa/forex-trading-1-0/pull/33) added independent synthetic FX execution-cost reference: LONG ASK→BID, SHORT BID→ASK, net quote-currency PnL after explicit commission/slippage/signed swap; same-bar stop+target => AMBIGUOUS, no invented fill. Main [GitHub Actions 42363465304](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42363465304) **539/539 PASS each Python 3.11/3.12**, with all three independent workstreams merged. Latest native 00 Handoff v0.33 §43 includes complete canonical Spec v0.12 §27. No full historic Backtest, trade ledger, verified broker execution, licensed market-price cache, protected KMS/remote witness or live trading.
+
+## M2/P0.14 — Encrypted weekly synthetic cache bridge
+
+- [PR #37](https://github.com/ngluonghoa/forex-trading-1-0/pull/37) connects canonical per-week TEST-only serialized data with AES-256-GCM, a fake in-memory manifest pointer and selective chunk reuse. Changes to one old week or one new week create only the changed fake encrypted weekly object; unchanged weeks reuse prior sealed blobs. Missing historical candles, same-revision mutations, tampered ciphertext, wrong keys and stage-crash retries are tested.
+- [Milestone scope/limitations](docs/M2_P14_SEALED_WEEKLY_SYNTHETIC_REFERENCE.md), [independent merged-main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42368830398) **560/560 PASS each Python 3.11 and 3.12**. PUBLIC TEST KEY, caller-supplied fake FX data only: no persistent Drive weekly connector, no external witness, no true KMS/multiwriter CAS, no authorized vendor historical BID/ASK storage, no real speed results or trading.
 
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no validated broker fill/SL/TP execution simulator (synthetic-only cost/ambiguity references exist), no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
