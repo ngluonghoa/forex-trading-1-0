@@ -1,5 +1,5 @@
 # P2.1 — Forex Module Boundary & Dependency Audit (DESIGN ONLY)
-Date: 2026-11-07 | Status: PROPOSED / REVIEW ONLY | Scope: targeted source audit, no functional change
+Date: 2026-11-07 | Status: P2.1 DESIGN ACCEPTED / FIRST REFACTOR MERGED #48 | Scope: audited baseline plus scoped independent code PR
 Project: Forex Trading 1.0, private GitHub repo
 Source reference: main 2a78ac532702ee543f064ccf7c57f9c4e941dc58
 Original executable baseline: M2/P0.10 PR #28 7f0904eefad9afe3da7bbaab522d8c59b6847c9e
@@ -68,8 +68,8 @@ CandleSnapshot/CachePartition in cache_core.py enforce pair/provider/product/sid
 **P2.1-F04 — Existing Drive test boundary is explicit.**
 synthetic_drive_receipt_validation.py validates copied synthetic files offline. It neither implements Google Drive authenticated persistence nor vendor rights/KMS/CAS/actual five-minute savings. Do not promote smoke validation to production storage.
 
-## 4. Proposed future small PR A — selection contract isolation
-**New path (proposal, not created):** src/forex_trading/scan_contract.py
+## 4. PR A — selection contract isolation (IMPLEMENTED IN #48)
+**New path (implemented separately in #48):** src/forex_trading/scan_contract.py
 - Move unchanged ScanMode, ScanSelection and plan_scan_selection into scan_contract.py.
 - Import only Python standard library modules in the new module; do not import synthetic workload, cache, vendor or broker dependencies.
 - Retain scan_selection.py as a compatibility shim: re-export the same names, keep SelectedSyntheticScanReport and run_selected_synthetic_scan there.
@@ -86,7 +86,7 @@ synthetic_drive_receipt_validation.py validates copied synthetic files offline. 
 6. Compare new PR against M2/P0.10 source baseline: only approved new/relocated contract, compatibility imports and new tests may differ; no reintroduction of withdrawn PR #29–#37 code.
 7. Run independent PR CI and postmerge main CI before claiming merged acceptance. Do NOT label this as complete merely because this design PR is merged.
 
-**Rollback of future PR A:** Revert only PR A via reviewed GitHub PR after confirming no downstream importers/new schema dependency. No changes to data, manifests, migrations, Drive objects, signal rules or approved business catalog are expected.
+**Rollback of PR A:** Revert only PR A via reviewed GitHub PR after confirming no downstream importers/new schema dependency. No changes to data, manifests, migrations, Drive objects, signal rules or approved business catalog are expected.
 
 ## 5. Proposed future small PR B — synthetic cache store/orchestrator split
 Only after PR A is verified: retain SyntheticDriveCacheStaging, SyntheticChunk and manifest validation in store module; relocate run_mixed_scope_synthetic_drive_scan and MixedScanResult to a synthetic-only orchestrator. Keep legacy imports as re-exports. Verify exact 5→20→1→20 fixture equivalence, stale writer/crash/quarantine behavior, and zero real IO. Must be its own independently reversible PR.
@@ -97,13 +97,20 @@ Only after PR A is verified: retain SyntheticDriveCacheStaging, SyntheticChunk a
 - No changes to active Master Spec v0.11, approved 18 labels (15 entry candidates), four LONG and SHORT display states, eight-stage pipeline, TP/Exit policy or 1/custom/20 scan modes.
 - Design proposals are not substitute permissions for Forex-specific source retention/BID/ASK/cost data.
 - FX repo only; no changes to Swing Trading, CK, FX 2.0, Scanner or Mac devices.
-- A docs-only draft PR is the deliverable here. Do not merge a feature, rewrite Git history or silently move original M2/P0.10 source.
+- This document was authored through docs-only PR #47. Implementation belongs exclusively to separately verified PR #48. Do not rewrite Git history or silently re-introduce withdrawn M2/P0.11–P0.14 features.
 
 ## 7. Completion criteria for P2.1 design review
 - [x] Record observed module edges from current main and identify coupling with concrete paths.
 - [x] Identify interfaces to preserve and propose the smallest reversible change.
 - [x] Specify acceptance tests, non-goals and rollback boundary.
-- [ ] Review/accept this plan as a design artifact.
-- [ ] Implement future PR A (NOT STARTED).
-- [ ] Verify future PR A CI and baseline behavior (NOT STARTED).
+- [x] Review/accept this plan as a design artifact (user authorized continuation).
+- [x] Implement PR A via independent feature PR #48 (merged e8cf43830fd6f7086f4366a43363d3eabb2d99f4).
+- [x] Verify PR #48 Actions 42391199891: 454/454 tests PASS in Python 3.11 and 3.12 (448 previous + 6 new). Merge diff exactly 3 allowed source/test files. Postmerge main CI still requires independent readback.
 - [ ] Consider future PR B only after PR A success.
+
+## 8. Implementation receipt (after approval to continue)
+- User requested continuation in the single active Forex conversation. PR A #48 MERGED squash commit e8cf43830fd6f7086f4366a43363d3eabb2d99f4; source branch feature/p2-1-selection-contract-isolation.
+- GitHub Actions PR run 42391199891 passed. Verified job logs: Python 3.11 Ran 454 tests OK; Python 3.12 Ran 454 tests OK.
+- The code is a single new dependency-free selection module plus legacy re-export and six tests, not a restored cache/crypto/backtest milestone. No provider requests or Drive writes were performed by new code.
+- The original M2/P0.10 commit 7f0904e remains the immutable historical rollback checkpoint. Current main is now an explicitly reviewed post-baseline P2.1 refactor; do not assert 47/47 original file parity remains TRUE for active main (three intentional differences).
+- Postmerge main Actions result has not been independently checked via the current connector; do not claim it passed. Native Drive 00/06 documentation synchronization is separate and must preserve authoritative historical receipts. PR B remains NOT_STARTED.
