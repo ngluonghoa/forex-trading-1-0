@@ -1,8 +1,8 @@
 # Forex Trading 1.0
 
-## Active additional rollback — working code restored to M2/P0.10 (2026-11-07)
+## Active verified rollback — M2/P0.10 code and v0.11 Master Spec (2026-11-07)
 
-**User-directed fourth milestone rewind:** M2/P0.11 (original Handoff v0.31) has now ALSO been withdrawn, following prior withdrawal of M2/P0.12–P0.14. **Current executable baseline is M2/P0.10 (original Handoff v0.30), git commit `7f0904eefad9afe3da7bbaab522d8c59b6847c9e`**, not the latest editable Handoff version. Code, tests and CI must match that exact commit. Historical merged PRs/Google Docs sections remain as immutable audit; no history rewrite. [Additional rollback audit](docs/FOREX_FOURTH_MILESTONE_REWIND_20261107.md). Pre-rollback snapshot branch: `archive/forex-before-extra-m2-p10-rewind-20261107`.
+**User-directed fourth milestone rewind:** M2/P0.11 (original Handoff v0.31) has now ALSO been withdrawn, following prior withdrawal of M2/P0.12–P0.14. **Current executable baseline is M2/P0.10 (original Handoff v0.30), git commit `7f0904eefad9afe3da7bbaab522d8c59b6847c9e`**, not the latest editable Handoff version. Code, tests and CI must match that exact commit. Master Spec v0.11 §26 has also been restored character-exact following a deep audit; post-M2/P0.10 v0.12 §27 is archived HISTORY ONLY. Historical merged PRs/Google Docs sections remain as audit; no history rewrite. [Additional rollback audit](docs/FOREX_FOURTH_MILESTONE_REWIND_20261107.md). Pre-rollback snapshot branch: `archive/forex-before-extra-m2-p10-rewind-20261107`.
 
 Previous #32 TEST-only encrypted cloud files remain in audit/quarantine. **Earlier M2/P0.10 synthetic 141B chunk / 439B manifest smoke remains unchanged.** No real Forex vendor prices, protected KMS, live Drive cache, historical Backtest, running scanner or broker trading. Work frozen pending renewed user instruction in ONE chosen conversation.
 
@@ -16,14 +16,14 @@ Previous #32 TEST-only encrypted cloud files remain in audit/quarantine. **Earli
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.37 §47, restored code corresponds to original Handoff v0.30 §40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
-- [02 Master Spec v0.12 (design-only current)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
+- [00 Master Handoff v0.38 §48 — current governance, original source-era Handoff v0.30 §40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [02 Master Spec v0.11 §26 (restored active design)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.37 §47](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12 (design-only current)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.38 §48](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
@@ -38,7 +38,7 @@ Previous #32 TEST-only encrypted cloud files remain in audit/quarantine. **Earli
 ## Forex Smart Incremental Cache (M2/P0.2, synthetic reference)
 - [Cache architecture and five-minute incremental plan](docs/M2_P02_FOREX_SMART_INCREMENTAL_CACHE.md). Namespaced by broker product/provider/pair/BID-ASK-MID/TF/calendar/revision, immutable closed candles, bounded-range delta plan and late correction reconciliation.
 - Explicit L1–L5 dependency invalidation, source/quality/review gates and synthetic EMA append/revision parity; **no background polling, source connector, durable cache, licensed historical storage or speed benchmark**.
-- [Decision DEC-FX-020](https://docs.google.com/document/d/1rZdd9tMfT98wH7oDvWlV-0n7EQvvIoUx1T6M79Gb0d8/edit), latest [02 Spec v0.9 §24](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit).
+- [Decision DEC-FX-020](https://docs.google.com/document/d/1rZdd9tMfT98wH7oDvWlV-0n7EQvvIoUx1T6M79Gb0d8/edit), current [02 Spec v0.11 §24](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit).
 
 ## M2/P0.3 — Synthetic source adapter and storage proposal only
 - [Source/provider contract & storage review](docs/M2_P03_PROVIDER_DELTA_AND_STORAGE_REVIEW.md): staged OANDA-v20-shaped BID/ASK M1/M5/M15/M30/H1 closed candles, bounded range, UTC/nanosecond precision checks, overlap append/revision/unchanged; no real API calls or provider rights.

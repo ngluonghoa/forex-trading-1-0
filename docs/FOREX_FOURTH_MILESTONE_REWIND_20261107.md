@@ -1,5 +1,8 @@
 # Forex Trading 1.0 — additional one-milestone rewind to M2/P0.10, 2026-11-07
 
+**POST-ROLLBACK AUDIT ADDENDUM:** Code M2/P0.10 correctly restored under PR #43. A subsequent deep audit found normative native 02 Master Spec still incorrectly at v0.12 §27; it has now been restored to **v0.11 §26, exact original 273 paragraphs / 63846 chars**. Handoff v0.38 §48 and [current audit](FOREX_ROLLBACK_DEEP_AUDIT_20261107.md) supersede earlier wording below that v0.12 remains current. Previous text preserved for provenance.
+
+
 ## Governance and user instruction
 
 The user requested **one more milestone** of rollback after the previous three-milestone rewind had restored M2/P0.11. Interpret this as withdrawing **M2/P0.11 synthetic AES-GCM cache prototype** and restoring original **M2/P0.10 / Handoff v0.30** source/CI baseline. This is not a request to rewrite or delete Git or native Docs history, change prior functional design, or change Swing Trading / FX 2.0 / CK / Scanner.

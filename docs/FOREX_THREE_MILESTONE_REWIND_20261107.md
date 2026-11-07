@@ -1,4 +1,7 @@
-# Forex Trading 1.0 — three-milestone rollback / development freeze — 2026-11-07
+# Forex Trading 1.0 — three-milestone rollback / HISTORICAL CHECKPOINT — 2026-11-07
+
+**SUPERSEDED:** This records the prior M2/P0.11 stopping point, **not** active scope. Additional rollback PR #43 restores M2/P0.10 and the deep audit restores native Spec v0.11 §26; latest Handoff v0.38 §48. This earlier text and test count 472 are retained for chronology only. [Current audit](FOREX_ROLLBACK_DEEP_AUDIT_20261107.md).
+
 
 ## User instruction and interpretation
 
