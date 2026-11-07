@@ -150,6 +150,11 @@ def evaluate_synthetic_atomic_recovery(
     if policy.action is not SyntheticRightsAction.PAPERWORK_ONLY:
         return blocked("RIGHTS_REVIEW_BLOCKS_SYNTHETIC_REUSE")
     try:
+        # A claimed parent also needs its own checksum checked. This bounded
+        # reference evaluator only accepts a verified genesis parent; deeper
+        # chains require an explicit, independently audited ancestor walk.
+        if stable_parent is not None:
+            validate_synthetic_generation_chain(stable_parent)
         validate_synthetic_generation_chain(stable, stable_parent)
     except (ValueError, TypeError) as exc:
         return blocked("STABLE_MANIFEST_INVALID:" + str(exc))
