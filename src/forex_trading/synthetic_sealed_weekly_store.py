@@ -13,7 +13,7 @@ from decimal import Decimal
 from hashlib import sha256
 import json
 
-from .cache_core import CachePartition, CandleSnapshot
+from .cache_core import CachePartition, CandleSnapshot, reconcile_closed_delta
 from .market_data import (
     BarCoverage, BarLifecycle, BarSide, MarketBar, MarketBarKey,
     Observation, SourceQuality, Timeframe,
@@ -226,6 +226,18 @@ class SyntheticSealedWeeklyStore:
                     raise ValueError("REUSED_WEEK_ROWS_MISMATCH")
                 reused += 1
             else:
+                if monday in previous:
+                    older_rows = self._read(
+                        partition, previous[monday], key=key, key_ref=key_ref,
+                        as_of=snapshot.checked_at_utc)
+                    older_snapshot = CandleSnapshot(
+                        partition, older_rows, snapshot.checked_at_utc,
+                        "SYNTHETIC_WEEK_OLDER")
+                    merged = reconcile_closed_delta(
+                        older_snapshot, rows, snapshot.checked_at_utc,
+                        new_source_head_claim="SYNTHETIC_WEEK_REVISION")
+                    if merged.snapshot.closed_bars != rows:
+                        raise ValueError("UNVERIFIED_INTRA_WEEK_BAR_DELETION")
                 changed_refs += 1
                 if ref.chunk_name in self._objects:
                     if self._read(partition, ref, key=key, key_ref=key_ref,
