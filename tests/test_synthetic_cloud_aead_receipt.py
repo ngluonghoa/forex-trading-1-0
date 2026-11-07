@@ -1,4 +1,4 @@
-"""M2/P0.12 reproducible byte fixtures from REAL Google Drive synthetic readback.
+"""M2/P0.13 reproducible byte fixtures from REAL Google Drive synthetic readback.
 
 All bytes are harmless encrypted TESTPAIR00 with a PUBLIC TEST KEY from M2/P0.11.
 These are local regression tests; CI does not contact Google Drive or any vendor.
