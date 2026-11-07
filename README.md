@@ -1,14 +1,14 @@
 # Forex Trading 1.0
 
-## Active engineering checkpoint — P2.1-A+B modularization (2026-11-07)
+## Current checkpoint — P2.2 Data Contract review completed (2026-11-08)
 
-**Current approved source engineering checkpoint:** reviewed source [PR #50](https://github.com/ngluonghoa/forex-trading-1-0/pull/50) merged squash `238de5454187c2312e885d45dbcae6107e25818f`, after PR #48 (`e8cf43830fd6f7086f4366a43363d3eabb2d99f4`). P2.1-A moved the pure SINGLE/CUSTOM/ALL selection types/function into `scan_contract.py` (legacy `scan_selection.py` imports preserved). P2.1-B moved the **IN-MEMORY SYNTHETIC-ONLY** cache class to `synthetic_drive_cache_store.py` and mixed-scope runner to `synthetic_drive_scan_orchestrator.py`, with `synthetic_drive_cache_staging.py` exact identity legacy re-exports. **Source PR #50 GitHub Actions 42392919832: 461/461 PASS per Python 3.11 and Python 3.12** (448 historical baseline + six P2.1-A + seven P2.1-B). PR #50 source-body comparison confirmed original cache/store/runner implementations text-identical after relocation. Independent postmerge MAIN push CI has not yet been separately verified.
+**P2.2 completed as an architecture review, NOT a source implementation.** Documentation-only [PR #52](https://github.com/ngluonghoa/forex-trading-1-0/pull/52) merged main SHA `fb62ba24d87ba1024ac9ccda285554f504dea284`. Its only addition is [P2.2 Forex Data Contract & Interface Review](docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md), covering eight contract gaps and five separately gated future steps. GitHub Actions PR run 42394635779 independently confirmed **461/461 synthetic tests PASS per Python 3.11 and Python 3.12**; no `src/`, `tests/`, CI or requirements changed in this review.
 
-**Historical user-directed safe rollback checkpoint remains:** M2/P0.10 PR #28 commit `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` (source-era Handoff v0.30 §40). P2.1-A+B intentionally differ in exactly **seven authorized source/test paths**, not 47/47 original blob parity; this is not resurrection of the earlier withdrawn M2/P0.11–M2/P0.14 prototypes. Native Master Spec v0.11 §26 remains unchanged. [P2.1 architecture audit](docs/P2_1_MODULE_BOUNDARY_AUDIT.md), [original rollback evidence](docs/FOREX_ROLLBACK_DEEP_AUDIT_20261107.md).
+**Active engineering source remains P2.1-A+B:** source [PR #48](https://github.com/ngluonghoa/forex-trading-1-0/pull/48) `e8cf43830fd6f7086f4366a43363d3eabb2d99f4` and [PR #50](https://github.com/ngluonghoa/forex-trading-1-0/pull/50) `238de5454187c2312e885d45dbcae6107e25818f`. The pure `scan_contract.py` and synthetic-only store/orchestrator split keep existing legacy import behavior. Current source differs from the original M2/P0.10 code in exactly seven approved P2.1 source/test paths. **Historical rollback checkpoint** M2/P0.10 PR #28 `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` remains immutable. Withdrawn M2/P0.11–M2/P0.14 prototypes are still absent. Native Master Spec v0.11 §26 is unchanged.
 
-**Operational gates remain BLOCKED.** No licensed Forex vendor BID/ASK candle feed, production Google Drive cache, protected KMS/distributed CAS, real historical Backtest/OOS, live scanner or broker trading; the original M2/P0.10 Drive fixture files are tiny synthetic-only objects and later encrypted fake files remain quarantined.
+**P2.2-A is the next proposed implementation**, not yet started: additive synthetic-only read-only binding between provider/stream/product and a typed candle snapshot. Separate future PRs handle dual content/lineage receipts, BID/ASK temporal/identity joins, witnessed first-known/revision clocks, and FX-specific session/volume/recovery contracts. No real market feed, licensed cache on Google Drive, protected keys/CAS, historical Backtest/OOS, live scheduler or broker trading is approved. Independent postmerge MAIN-push CI was not verified by this review; do not conflate PR CI with main.
 
-This private Forex repo is independent of Swing Trading 1.8, FX 2.0, CK 2.0 and Scanner. All changes use one active conversation, reviewable PRs, CI and distinct rollback boundaries.
+This repository is independent of Swing Trading, CK 2.0, FX 2.0 and Scanner. Continue through one authorized Forex conversation, reviewed PRs and explicit rollback gates.
 
 ## Engineering model
 - **GitHub private repo**: canonical code, small PRs, commit history and GitHub Actions CI.
@@ -18,14 +18,14 @@ This private Forex repo is independent of Swing Trading 1.8, FX 2.0, CK 2.0 and 
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.40 §50 — P2.1-B governance; original M2/P0.10 checkpoint in §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.41 §51 — P2.2 review; P2.1-B §50; rollback §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.11 §26 (restored active design)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
-- [06 QA v0.55 §70](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
+- [06 QA v0.56 §71](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.40 §50](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.41 §51](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
