@@ -7,11 +7,12 @@ cannot protect against real multi-writer rollback or establish licensing.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from decimal import Decimal
 from hashlib import sha256
 import json
+import re
 
 from .cache_core import CachePartition, CandleSnapshot, reconcile_closed_delta
 from .market_data import (
@@ -19,7 +20,6 @@ from .market_data import (
     Observation, SourceQuality, Timeframe,
 )
 from .quotes import ensure_utc
-from .synthetic_weekly_chunks import FXWindowManifest, FXWindowRef, FXWindowSync
 from .synthetic_sealed_cache import (
     MAGIC, SealedSyntheticChunk, seal_synthetic_fixture, unseal_synthetic_fixture,
 )
@@ -142,6 +142,87 @@ def _unpack(partition: CachePartition, monday: str, data: bytes,
         raise ValueError("MISROUTED_WEEK_DATA")
     CandleSnapshot(partition, result, as_of, "SYNTHETIC_SEALED_WEEK_READ")
     return result
+
+
+# Compatibility contracts absorbed from the retired parallel-chat-only
+# weekly in-memory simulator. The independent #37 encrypted weekly engine uses
+# these three types; preserve identical digests and validations without #31.
+HEX = re.compile(r"^[a-f0-9]{64}$")
+
+def _sha(data: bytes) -> str:
+    return sha256(data).hexdigest()
+
+def _json(obj: object) -> str:
+    return json.dumps(obj, sort_keys=True, ensure_ascii=True,
+                      separators=(",", ":"), allow_nan=False)
+
+@dataclass(frozen=True,slots=True)
+class FXWindowRef:
+    monday_utc: str
+    chunk_name: str
+    chunk_sha256: str
+    bars: int
+
+    def __post_init__(self):
+        if not isinstance(self.monday_utc,str):
+            raise ValueError("MONDAY_STORAGE_ID_REQUIRED")
+        try:
+            d=datetime.fromisoformat(self.monday_utc).date()
+        except (ValueError,TypeError) as err:
+            raise ValueError("INVALID_UTC_WEEK") from err
+        if d.isoformat()!=self.monday_utc or d.weekday()!=0:
+            raise ValueError("WINDOW_IS_NOT_MONDAY")
+        if not isinstance(self.chunk_sha256,str) or not HEX.fullmatch(self.chunk_sha256):
+            raise ValueError("BAD_CHUNK_SHA256")
+        if self.chunk_name != f"fx1-w-{self.monday_utc}-{self.chunk_sha256}.fixture":
+            raise ValueError("NONCANONICAL_CONTENT_ADDRESS")
+        if type(self.bars) is not int or not 1<=self.bars<=100_000:
+            raise ValueError("INVALID_WINDOW_BAR_COUNT")
+
+
+@dataclass(frozen=True,slots=True)
+class FXWindowManifest:
+    partition_sha256: str
+    generation: int
+    parent_sha256: str | None
+    created_utc: datetime
+    refs: tuple[FXWindowRef,...]
+    fixture_only: bool = True
+    real_drive_calls: int = 0
+    may_use_real_market_data: bool = False
+
+    def __post_init__(self):
+        if not isinstance(self.partition_sha256,str) or not HEX.fullmatch(self.partition_sha256):
+            raise ValueError("PARTITION_HASH_REQUIRED")
+        if type(self.generation) is not int or self.generation<1:
+            raise ValueError("GENERATION_REQUIRED")
+        if (self.generation==1)!=(self.parent_sha256 is None):
+            raise ValueError("GENESIS_PARENT_POLICY")
+        if self.parent_sha256 is not None and not HEX.fullmatch(self.parent_sha256):
+            raise ValueError("PARENT_SHA_REQUIRED")
+        ensure_utc(self.created_utc,"created_utc")
+        if (not isinstance(self.refs,tuple) or not 0<len(self.refs)<=MAX_WINDOWS
+            or any(not isinstance(x,FXWindowRef) for x in self.refs)
+            or tuple(x.monday_utc for x in self.refs)!=tuple(sorted({x.monday_utc for x in self.refs}))):
+            raise ValueError("STRICT_NONEMPTY_UNIQUE_WINDOWS_REQUIRED")
+        if self.fixture_only is not True or self.real_drive_calls!=0 or self.may_use_real_market_data is not False:
+            raise PermissionError("FIXTURE_NOT_LIVE_STORAGE")
+
+    @property
+    def digest(self) -> str:
+        d=asdict(self)
+        d["created_utc"]=self.created_utc.isoformat(timespec="microseconds")
+        return _sha(_json(d).encode("ascii"))
+
+
+@dataclass(frozen=True)
+class FXWindowSync:
+    new_chunk_objects: int
+    reused_chunk_objects: int
+    new_manifest: bool
+    actual_vendor_requests: int = 0
+    actual_drive_requests: int = 0
+    live_cache_approved: bool = False
 
 
 @dataclass(frozen=True, slots=True)
