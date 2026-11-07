@@ -1,4 +1,4 @@
-name: M1 synthetic domain CI
+name: Forex contract CI and artifact smoke
 on:
   pull_request:
   push:
@@ -26,3 +26,9 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest discover -s tests -v
+      - name: Validate current CI Python environment
+        run: python -m pip check
+      - name: Build a wheel for smoke validation (NOT a release)
+        run: python -m pip wheel --no-deps --wheel-dir .ci-wheel .
+      - name: Verify built wheel metadata and packaged sources
+        run: python tools/verify_build_artifact.py .ci-wheel
