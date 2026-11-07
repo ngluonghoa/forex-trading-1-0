@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.30 §40. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.31 §41. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -99,3 +99,9 @@ Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 re
 - Live **Google Drive connector** upload/download, not an authenticated Google API transport *from the Python scanner*: [synthetic 141-byte chunk](https://drive.google.com/file/d/1HgjhwKJW2JzuO_OL8ODl45GdsW9bGv3h/view) and [synthetic 439-byte manifest](https://drive.google.com/file/d/1j7yevV6EgH7fyKj5uok5iOqrF1dGBegK/view). Independent source/download byte exact SHA256 match and manifest chunk ID/MD5/size match. Temporary Google Docs source export removed.
 - [Source PR #27](https://github.com/ngluonghoa/forex-trading-1-0/pull/27) merged main `32ad253ae8458e42776e11db48a20d9c1d8084b2`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346303057) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346358111) Python 3.11/3.12 each **448/448 synthetic tests PASS**, previous 430→448 +18. Offline validator checks real connector readback byte fixture, references, checksum and fail-closed malformed evidence; Python port still fake.
 - **NOT a licensed price data cache.** Only 2 harmless synthetic files, no timed workload or cross-session 5→20→1→20 production benchmark, no provider API calls, no client-side encryption/key/region approvals, no provider retention rights, no atomic multi-file commit/lease/rollback anchor, no automated polling, L2–L5/backtest/OOS/live trading. No MOCHI/M15001.
+
+## M2/P0.11 — AES-GCM reference + in-memory recovery model (2026-11-07)
+- Canonical native 00 Handoff v0.31 §41; 02 Master Spec v0.11 §26 unchanged; QA v0.41 §54. Full text snapshots matched and controlled by separate docs PR.
+- [Source PR #29](https://github.com/ngluonghoa/forex-trading-1-0/pull/29) merged main `60b3c5bc04ec2484a473739041f62fc825f43ed4`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361442109) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361487088): Python 3.11/3.12 each **472/472 synthetic unit tests** (previous 448 +24).
+- `synthetic_sealed_cache.py` implements AES-256-GCM authenticated encryption of fake bytes with random nonce + AAD binding partition/generation/parent/key ref. In-memory sealed store and mutable in-memory witness simulate stale writer, fail-closed crash/rollback and reused 5→20→1→20 fake scoped cache across fresh session objects; dependency pinned `cryptography==50.0.2`.
+- **NOT a deployed encrypted Google Drive cache.** Previously uploaded 141-byte chunk and 439-byte manifest are still plain synthetic test text. No real cloud encrypted blob, KMS/key custody/rotation, distributed CAS, independently trusted rollback witness or actual process restart verified. Vendor real FX rights/raw historic native BID/ASK, 5-min cloud vendor performance, full L2–L5/backtest OOS still blocked.
