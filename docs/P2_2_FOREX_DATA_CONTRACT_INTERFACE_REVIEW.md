@@ -1,7 +1,7 @@
 # P2.2 — Forex Data Contract & Interface Review
 
 **Review date:** 2026-11-08 (Asia/Ho_Chi_Minh)  
-**Status:** REVIEW COMPLETE / DESIGN CANDIDATES ONLY — NO PYTHON BUSINESS/CORE MODIFICATIONS  
+**Status:** REVIEW COMPLETE / P2.2-A IMPLEMENTED IN SEPARATE PR #54 — ORIGINAL REVIEW FINDINGS AND PLANS HISTORICAL  
 **GitHub baseline examined:** `main` `941e2ef775e03ef77b1ce76fed32a3e0a38f2959` (P2.1-A+B code and docs).  
 **Canonical authority:** native `02_FOREX_MASTER_SPEC` v0.11 §26; `00_MASTER_HANDOFF` v0.40 §50; QA v0.55 §70, prior rollback QA §68.  
 **Immutable historical rollback checkpoint:** `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` (original M2/P0.10). It is not current HEAD.
@@ -125,3 +125,11 @@ P2.2-A is **a proposal**, not started by this documentation PR. Each code PR req
 - **One-lane governance:** never concurrently mutate this Forex repo from multiple conversations, and do not treat historical §41–§47 NEXT or withdrawn M2/P0.11–0.14 prototypes as current.
 
 **Review result:** P2.2 CONTRACT_GAP_REVIEW_COMPLETE; P2.2-A..E CODE_NOT_STARTED; REAL_DATA_RIGHTS_BACKTEST_AND_TRADING_BLOCKED.
+
+## 7. Addendum — P2.2-A implementation receipt (2026-11-08)
+
+**New latest checkpoint (supersedes earlier text in this design review calling A not started):** [Source PR #54](https://github.com/ngluonghoa/forex-trading-1-0/pull/54) MERGED to main squash `026e3defc661098eb5648f4f56b7afb92008721f` from base `ad147973f5aeb1004e293bc814b8df2645bd24e0`. Exactly two new paths: `src/forex_trading/source_stream_binding.py` (additive frozen `SourceStreamBinding`, `StreamBindingReview`, pure `qualify_snapshot_binding`) and `tests/test_source_stream_binding.py` (15 synthetic tests). No existing `CachePartition`, `MarketBar`, candle fingerprint, store, orchestrator, CI, requirements or business-spec modifications.
+
+**Acceptance:** [GitHub Actions run 42395599590](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42395599590) completed SUCCESS; independently fetched job logs show **476/476 tests PASS in Python 3.11** and **476/476 tests PASS in Python 3.12** (461 prior + 15 new). Cross-stream, endpoint, provider, broker product, rights-policy, schema, TF/side, causal retrieval and immutability negative tests are included. Independent postmerge main push CI was not verified.
+
+**Safety:** Binding reference is *caller-declared*, not a vendor mapping attestation. `mapping_independently_verified`, `vendor_entitlement_independently_verified`, `may_ingest_real_data`, `may_persist_real_data`, and `may_trade` are always FALSE. An empty/no binding or a mismatched stream fails closed. Existing 5→20→1→20 cache tests unchanged, and no authenticated source calls, real Drive objects, or broker orders were added. The historical M2/P0.10 rollback reference `7f0904e` remains. P2.2-B (price-content vs provenance/lineage) is **NEXT / NOT STARTED**; P2.2-C..E remain deferred. Canonical native Handoff v0.42 §52 and QA v0.57 §72 provide the latest checkpoint.

@@ -1,14 +1,14 @@
 # Forex Trading 1.0
 
-## Current checkpoint — P2.2 Data Contract review completed (2026-11-08)
+## Current checkpoint — P2.2-A stream binding implemented (2026-11-08)
 
-**P2.2 completed as an architecture review, NOT a source implementation.** Documentation-only [PR #52](https://github.com/ngluonghoa/forex-trading-1-0/pull/52) merged main SHA `fb62ba24d87ba1024ac9ccda285554f504dea284`. Its only addition is [P2.2 Forex Data Contract & Interface Review](docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md), covering eight contract gaps and five separately gated future steps. GitHub Actions PR run 42394635779 independently confirmed **461/461 synthetic tests PASS per Python 3.11 and Python 3.12**; no `src/`, `tests/`, CI or requirements changed in this review.
+**P2.2-A source code is merged**, not merely proposed. [PR #54](https://github.com/ngluonghoa/forex-trading-1-0/pull/54) squash-merged source SHA `026e3defc661098eb5648f4f56b7afb92008721f` on top of previous source P2.1-A+B. Added **only** `src/forex_trading/source_stream_binding.py` and `tests/test_source_stream_binding.py` (15 synthetic tests). New frozen `SourceStreamBinding` plus read-only `qualify_snapshot_binding` compare caller-claimed provider, broker product, instrument, side, timeframe, policy versions, stream ID, endpoint, license scope and as-of against a typed `CandleSnapshot`. **Consistency is NOT independent source validation or entitlement**; may_ingest_real_data/may_persist_real_data/may_trade stay false. No schema, fingerprint, cache, broker or existing API edits.
 
-**Active engineering source remains P2.1-A+B:** source [PR #48](https://github.com/ngluonghoa/forex-trading-1-0/pull/48) `e8cf43830fd6f7086f4366a43363d3eabb2d99f4` and [PR #50](https://github.com/ngluonghoa/forex-trading-1-0/pull/50) `238de5454187c2312e885d45dbcae6107e25818f`. The pure `scan_contract.py` and synthetic-only store/orchestrator split keep existing legacy import behavior. Current source differs from the original M2/P0.10 code in exactly seven approved P2.1 source/test paths. **Historical rollback checkpoint** M2/P0.10 PR #28 `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` remains immutable. Withdrawn M2/P0.11–M2/P0.14 prototypes are still absent. Native Master Spec v0.11 §26 is unchanged.
+**Verified PR CI:** GitHub Actions [42395599590](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42395599590) Python 3.11 and 3.12 both **476/476 synthetic tests PASS** (461 prior + 15 new). Independent postmerge MAIN push CI not verified from connector. [P2.2 architecture review](docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md) still guides future P2.2-B..E. P2.2-B (separate content vs provenance/lineage evidence without unnecessary indicator recompute) is the next proposed step, **not yet implemented**.
 
-**P2.2-A is the next proposed implementation**, not yet started: additive synthetic-only read-only binding between provider/stream/product and a typed candle snapshot. Separate future PRs handle dual content/lineage receipts, BID/ASK temporal/identity joins, witnessed first-known/revision clocks, and FX-specific session/volume/recovery contracts. No real market feed, licensed cache on Google Drive, protected keys/CAS, historical Backtest/OOS, live scheduler or broker trading is approved. Independent postmerge MAIN-push CI was not verified by this review; do not conflate PR CI with main.
+**Preserved historical rollback:** Original M2/P0.10 PR #28 source `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` is immutable archival checkpoint, NOT active HEAD. Current code intentionally differs from it in **nine approved source/test paths** (seven P2.1-A+B, two P2.2-A). Withdrawn M2/P0.11–M2/P0.14 code is still absent, and native Master Spec v0.11 §26 is unchanged.
 
-This repository is independent of Swing Trading, CK 2.0, FX 2.0 and Scanner. Continue through one authorized Forex conversation, reviewed PRs and explicit rollback gates.
+**Operational gates BLOCKED:** No authenticated Forex historical native BID/ASK, independent vendor rights/retention, production Google Drive data cache or KMS/CAS/witness, executable detectors, real historical Backtest/OOS, live 5-minute scanner or broker orders.
 
 ## Engineering model
 - **GitHub private repo**: canonical code, small PRs, commit history and GitHub Actions CI.
@@ -18,14 +18,14 @@ This repository is independent of Swing Trading, CK 2.0, FX 2.0 and Scanner. Con
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.41 §51 — P2.2 review; P2.1-B §50; rollback §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.42 §52 — P2.2-A source implementation; rollback §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.11 §26 (restored active design)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
-- [06 QA v0.56 §71](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
+- [06 QA v0.57 §72](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.41 §51](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.42 §52](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
