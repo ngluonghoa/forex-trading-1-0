@@ -1,4 +1,9 @@
-# Forex overlap rollback — 2026-11-07 (user-requested)
+# Forex overlap rollback — HISTORICAL CHECKPOINT, superseded 2026-11-07
+
+**IMPORTANT: RETIRED STATUS ONLY.** The #39 snapshot below reflects an earlier partial rollback; its claims that #32/#37 modules still exist or that Handoff v0.35 is latest are **NO LONGER TRUE**. Latest canonical Handoff v0.38 §48 restores active code to M2/P0.10 and active Spec to v0.11 §26, with 448/448 Python 3.11/3.12 tests. #32 fake cloud files are quarantined. Read [deep audit](FOREX_ROLLBACK_DEEP_AUDIT_20261107.md) and current [snapshot manifest](HANDOFF_SNAPSHOT_MANIFEST.md). Original text retained below for history.
+
+---
+
 
 **Scope:** This chat only. Keep OTHER CHAT's independent Forex development and any unrelated Swing Trading project commits. Roll back code through a new PR and unchanged Git history, not destructive reset.
 
