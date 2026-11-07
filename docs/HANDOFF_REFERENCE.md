@@ -1,7 +1,7 @@
 # Source-of-truth and text-snapshot policy
 
-- Canonical **Google Drive Handoff v0.37 §47 (ACTIVE source rollback to M2/P0.10 / original Handoff v0.30 §40; §46 and earlier historical; Spec v0.12 is design-only)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
-- Canonical **Google Drive Master Spec v0.12**: https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit
+- Canonical **Google Drive Handoff v0.38 §48 (ACTIVE source M2/P0.10 + normative Spec v0.11 restoration; original Handoff v0.30 §40; prior §§41–47 historical)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
+- Canonical **Google Drive Master Spec v0.11 §26 (active, EXACT original M2/P0.10 content)**: https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit
 - Snapshots in GitHub: [00 text](source-snapshots/00_MASTER_HANDOFF.txt) and [02 text](source-snapshots/02_MASTER_SPEC.txt).
 - Provenance, source revisions and exact-text comparison: [HANDOFF_SNAPSHOT_MANIFEST](HANDOFF_SNAPSHOT_MANIFEST.md).
 
