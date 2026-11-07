@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** restored M2/P0.10, original Handoff v0.30 §40, git 7f0904eefad9afe3da7bbaab522d8c59b6847c9e; editable Handoff v0.37 §47 records the active rollback governance checkpoint. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** restored M2/P0.10, original Handoff v0.30 §40, git 7f0904eefad9afe3da7bbaab522d8c59b6847c9e; editable Handoff v0.38 §48 records the active rollback governance checkpoint; 02 Master Spec v0.11 §26 restored EXACT to original M2/P0.10 contents. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
