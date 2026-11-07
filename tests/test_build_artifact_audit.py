@@ -1,10 +1,11 @@
 """RE2 negative tests for wheel smoke verification; no publishing."""
 import tempfile
+from shutil import copyfile
 import unittest
 from pathlib import Path
 from zipfile import ZipFile
 
-from tools.verify_build_artifact import inspect_wheel
+from tools.verify_build_artifact import inspect_wheel, verify_repeat_build_match
 
 
 def wheel(path, *, name="forex-trading-core", version="0.1.0",
@@ -68,6 +69,30 @@ class WheelVerificationTests(unittest.TestCase):
     def test_missing_wheel_path_rejected(self):
         with self.assertRaisesRegex(ValueError, "CI_WHEEL_MISSING"):
             self.check()
+
+    def test_identical_repeated_wheel_contents_pass(self):
+        wheel(self.artifact)
+        repeat = Path(self.tmp.name) / "repeat" / self.artifact.name
+        repeat.parent.mkdir()
+        copyfile(self.artifact, repeat)
+        self.assertEqual(
+            verify_repeat_build_match(self.artifact, repeat),
+            self.check()["wheel_sha256"],
+        )
+
+    def test_repeated_build_with_different_bytes_fails(self):
+        wheel(self.artifact)
+        repeat = Path(self.tmp.name) / "repeat" / self.artifact.name
+        repeat.parent.mkdir()
+        wheel(repeat, extra_path="forex_trading/changed.py")
+        with self.assertRaisesRegex(ValueError, "REPEATED_CI_BUILD_SHA256_MISMATCH"):
+            verify_repeat_build_match(self.artifact, repeat)
+
+    def test_missing_repeated_wheel_fails(self):
+        wheel(self.artifact)
+        absent = Path(self.tmp.name) / "repeat" / self.artifact.name
+        with self.assertRaisesRegex(ValueError, "REPEATED_CI_BUILD_ARTIFACT_MISSING"):
+            verify_repeat_build_match(self.artifact, absent)
 
     def test_expected_source_list_cannot_be_empty(self):
         wheel(self.artifact)

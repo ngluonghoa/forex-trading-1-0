@@ -69,9 +69,25 @@ def inspect_wheel(
     }
 
 
+def verify_repeat_build_match(
+    first: Path, second: Path,
+) -> str:
+    """Same-environment repeated-wheel hash equality; not external attestation."""
+    if not first.is_file() or not second.is_file():
+        raise ValueError("REPEATED_CI_BUILD_ARTIFACT_MISSING")
+    if first.name != second.name:
+        raise ValueError("REPEATED_WHEEL_NAME_MISMATCH")
+    first_sha = sha256(first.read_bytes()).hexdigest()
+    second_sha = sha256(second.read_bytes()).hexdigest()
+    if first_sha != second_sha:
+        raise ValueError("REPEATED_CI_BUILD_SHA256_MISMATCH")
+    return first_sha
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("wheel_dir", type=Path)
+    parser.add_argument("--repeat-wheel-dir", type=Path, default=None)
     parser.add_argument("--repository-root", type=Path, default=Path(__file__).resolve().parents[1])
     args = parser.parse_args()
     project = args.repository_root
@@ -89,6 +105,21 @@ def main() -> None:
         project_version=metadata["version"],
         expected_python_paths=expected,
     )
+    if args.repeat_wheel_dir is not None:
+        repeat_paths = sorted(args.repeat_wheel_dir.glob("*.whl"))
+        if len(repeat_paths) != 1:
+            raise ValueError("EXACTLY_ONE_REPEAT_CI_WHEEL_REQUIRED")
+        repeated = inspect_wheel(
+            repeat_paths[0], project_name=metadata["name"],
+            project_version=metadata["version"],
+            expected_python_paths=expected,
+        )
+        if verify_repeat_build_match(wheels[0], repeat_paths[0]) != result["wheel_sha256"]:
+            raise ValueError("REPEAT_BUILD_INTERNAL_DIGEST_ERROR")
+        result["repeat_build_sha256"] = repeated["wheel_sha256"]
+        result["same_environment_repeated_build_verified"] = True
+        # This does NOT claim reproducibility across Python versions, hosts,
+        # build toolchains, package mirrors, operating systems or dates.
     print(dumps(result, sort_keys=True))
 
 
