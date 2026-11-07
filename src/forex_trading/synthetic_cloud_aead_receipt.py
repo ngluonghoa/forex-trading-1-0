@@ -1,4 +1,4 @@
-"""M2/P0.12: offline verification of a REAL Drive connector AES-GCM test readback.
+"""M2/P0.13: offline verification of a REAL Drive connector AES-GCM test readback.
 
 The two source artifacts were uploaded/downloaded via the connected Google
 Drive app, NOT through this module. Both were harmless synthetic TESTPAIR00.
