@@ -1,10 +1,10 @@
 # Forex Trading 1.0
 
-## Active three-milestone rollback — freeze (2026-11-07)
+## Active additional rollback — working code restored to M2/P0.10 (2026-11-07)
 
-**Source/test baseline restored to M2/P0.11 [commit #30](https://github.com/ngluonghoa/forex-trading-1-0/commit/aa411515d837e59664cf4a9fdfbe1a3caf7ab5e2).** The 48 files in `src/` and `tests/` have an identical tree to this baseline. Later M2/P0.12, M2/P0.13-DRIVE/EXEC and M2/P0.14 synthetic engineering changes have been withdrawn following the user's overlapping-conversation rollback request, not erased from Git history. See [rollback evidence](docs/FOREX_THREE_MILESTONE_REWIND_20261107.md). The former #32 fake encrypted TESTPAIR00 Drive files have been moved to Audit & Quarantine, not deleted; older #27 smoke retained.
+**User-directed fourth milestone rewind:** M2/P0.11 (original Handoff v0.31) has now ALSO been withdrawn, following prior withdrawal of M2/P0.12–P0.14. **Current executable baseline is M2/P0.10 (original Handoff v0.30), git commit `7f0904eefad9afe3da7bbaab522d8c59b6847c9e`**, not the latest editable Handoff version. Code, tests and CI must match that exact commit. Historical merged PRs/Google Docs sections remain as immutable audit; no history rewrite. [Additional rollback audit](docs/FOREX_FOURTH_MILESTONE_REWIND_20261107.md). Pre-rollback snapshot branch: `archive/forex-before-extra-m2-p10-rewind-20261107`.
 
-**Development is paused.** Do not treat PRs #31/#32/#33/#37 as currently deployed code or resume them without new user instruction. Canonical Google Drive Handoff v0.36 §46 records the completed rollback; Master Spec v0.12 §27 remains design-only and does not enable withdrawn code. No licensed market data cache, real historical Backtest, broker execution or production release.
+Previous #32 TEST-only encrypted cloud files remain in audit/quarantine. **Earlier M2/P0.10 synthetic 141B chunk / 439B manifest smoke remains unchanged.** No real Forex vendor prices, protected KMS, live Drive cache, historical Backtest, running scanner or broker trading. Work frozen pending renewed user instruction in ONE chosen conversation.
 
 **M1/M2 read-only reference — synthetic engineering only, NO operational market data cache.** This repo is separate from Swing Trading 1.8, FX 2.0, CK 2.0 and Scanner.
 
@@ -16,14 +16,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.36 (rollback checkpoint), latest §46](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
-- [02 Master Spec v0.12 (design only)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
+- [00 Master Handoff — latest rollback governance, original source mốc v0.30 §40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [02 Master Spec v0.12 (design-only current)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.36 (rollback checkpoint)](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff — latest governance](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12 (design-only current)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
@@ -79,16 +79,11 @@
 - New offline `synthetic_drive_receipt_validation.py` and regression tests validate the copied connector evidence, folder IDs, content-address names, manifest pointers, MIME, checksums and data-rights fail-closed flags. The validator itself does **not** call Drive; the previously implemented Python Drive wire port remains injected FAKE TRANSPORT, not authenticated real IO.
 - **No actual real FX candles were uploaded.** Cloud file smoke is not a transactional, encrypted, always-on or licensed Smart Cache and does not establish quota/latency at 5-minute 20-pair workload scale. Provider licensing, client-side keys/ACL/region, active manifest CAS/lease/rollback witness and restart recovery remain gates.
 
-## M2/P0.11 — AES-256-GCM sealed synthetic cache and fail-closed recovery
-- [Synthetic AES-256-GCM generation, witness and recovery design](docs/M2_P11_AEAD_SYNTHETIC_RECOVERY_AND_WITNESS.md): 256-bit key supplied at runtime, fresh random 12-byte nonce, authenticated partition/generation/parent/key reference, immutable sealed chunk + generation manifest, explicit stale-writer and tamper rejection.
-- **Only an IN-MEMORY simulated Drive store and IN-MEMORY separate witness.** The demo detects staged crashes, broken pointer/witness, rollback and reopens the same memory state using a different session object. Neither is an authenticated Drive client, durable OS-restart exercise, external anti-rollback witness or distributed CAS.
-- Pins the synthetic security test dependency in `requirements-security-synthetic.txt`. Never place a real secret key in GitHub, Google Docs or a raw cache manifest. The earlier two actual connected Google Drive smoke files are **not encrypted by this milestone**. No real FX quotes, provider cache rights, licensed feed or trading.
-
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
 ## Running synthetic tests
-Requires Python 3.11+ (GitHub Actions uses Python 3.11 and 3.12). Synthetic security milestone additionally requires `python -m pip install -r requirements-security-synthetic.txt` (`cryptography==50.0.2`).
+Requires Python 3.11+ (GitHub Actions uses Python 3.11 and 3.12). No third-party runtime dependencies.
 
 ```sh
 PYTHONPATH=src python -m unittest discover -s tests -v
