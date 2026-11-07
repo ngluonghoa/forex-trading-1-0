@@ -35,7 +35,7 @@ def capability(**kw):
 
 def account(**kw):
     d=dict(provider_id="SYN_VENDOR",product_id="SYN_PRODUCT",
-           jurisdiction_code="SYN_REGION",account_scope_ref="ScopeNonSecretRef",
+           jurisdiction_code="SYN_REGION",account_scope_ref="ScopeOpaqueRef",
            plan_ref="DemoPlanRef",contract_revision_ref="ContractRevisionOne",
            effective_from_utc=T-timedelta(days=30),
            expires_utc=T+timedelta(days=180),
