@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.31 §41. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** restored M2/P0.10, original Handoff v0.30 §40, git 7f0904eefad9afe3da7bbaab522d8c59b6847c9e; editable Handoff has newer rollback governance checkpoint. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -100,13 +100,10 @@ Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 re
 - [Source PR #27](https://github.com/ngluonghoa/forex-trading-1-0/pull/27) merged main `32ad253ae8458e42776e11db48a20d9c1d8084b2`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346303057) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346358111) Python 3.11/3.12 each **448/448 synthetic tests PASS**, previous 430→448 +18. Offline validator checks real connector readback byte fixture, references, checksum and fail-closed malformed evidence; Python port still fake.
 - **NOT a licensed price data cache.** Only 2 harmless synthetic files, no timed workload or cross-session 5→20→1→20 production benchmark, no provider API calls, no client-side encryption/key/region approvals, no provider retention rights, no atomic multi-file commit/lease/rollback anchor, no automated polling, L2–L5/backtest/OOS/live trading. No MOCHI/M15001.
 
-## M2/P0.11 — AES-GCM reference + in-memory recovery model (2026-11-07)
-- Canonical native 00 Handoff v0.31 §41; 02 Master Spec v0.11 §26 unchanged; QA v0.41 §54. Full text snapshots matched and controlled by separate docs PR.
-- [Source PR #29](https://github.com/ngluonghoa/forex-trading-1-0/pull/29) merged main `60b3c5bc04ec2484a473739041f62fc825f43ed4`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361442109) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42361487088): Python 3.11/3.12 each **472/472 synthetic unit tests** (previous 448 +24).
-- `synthetic_sealed_cache.py` implements AES-256-GCM authenticated encryption of fake bytes with random nonce + AAD binding partition/generation/parent/key ref. In-memory sealed store and mutable in-memory witness simulate stale writer, fail-closed crash/rollback and reused 5→20→1→20 fake scoped cache across fresh session objects; dependency pinned `cryptography==50.0.2`.
-- **NOT a deployed encrypted Google Drive cache.** Previously uploaded 141-byte chunk and 439-byte manifest are still plain synthetic test text. No real cloud encrypted blob, KMS/key custody/rotation, distributed CAS, independently trusted rollback witness or actual process restart verified. Vendor real FX rights/raw historic native BID/ASK, 5-min cloud vendor performance, full L2–L5/backtest OOS still blocked.
 
-## Current safe rollback to M2/P0.11 (2026-11-07)
+## USER-REQUESTED ADDITIONAL ONE-MILESTONE ROLLBACK — M2/P0.11 → M2/P0.10
 
-The user requested withdrawal of three overlapping Forex development milestones. Core `src/`+`tests/` was restored byte-for-byte to commit `aa411515d837e59664cf4a9fdfbe1a3caf7ab5e2` (M2/P0.11; 48 identical blob hashes). All work after this is historic, not active. See `docs/FOREX_THREE_MILESTONE_REWIND_20261107.md` and the latest canonical Google Drive Handoff checkpoint. No full/real Forex source, cash cache, Backtest or trading has been enabled.
-
+- New request after previous three-milestone rewind: remove synthetic AES-256-GCM module and tests M2/P0.11 (PR #29), associated `cryptography` dependency and CI installation, leaving exactly the earlier M2/P0.10 implementation.
+- Original GitHub source/CI baseline `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` (PR #28), original Handoff v0.30 §40, 448/448 synthetic tests Python 3.11 and 3.12 in original prior CI. A new PR and independent merged-main CI must be verified before asserting a new test PASS.
+- This rollback supersedes previous Handoff v0.36 §46 as ACTIVE CODE; Handoff/Spec historical sections remain for audit. Two #32 public-test-key encrypted files still in quarantine; pre-M2/P0.11 Google Drive synthetic #27 smoke preserved.
+- Development remains FROZEN. Refer to `docs/FOREX_FOURTH_MILESTONE_REWIND_20261107.md`.
