@@ -1,9 +1,10 @@
 # Forex Trading 1.0
 
-## Current rollback checkpoint — overlapping chats (2026-11-07)
+## Active three-milestone rollback — freeze (2026-11-07)
 
-**User-requested Forex rollback:** [PR #39](https://github.com/ngluonghoa/forex-trading-1-0/pull/39) merged `291e9942ae18587781fb7b0ae4d641be010df646` and [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42371889929) **513/513 PASS each Python 3.11/3.12**. It WITHDREW the standalone #31 in-memory weekly cache module/tests/doc and standalone #33 quote-side synthetic Backtest module/tests/doc introduced by an overlapping chat. This is **not** a reset of main: the other conversation's #32 connected encrypted Google Drive synthetic smoke, #36 source normalization, #37 standalone sealed weekly synthetic cache and #38 history/source snapshot remain intact. The three FXWindowRef/FXWindowManifest/FXWindowSync contracts needed by #37 were moved into its module without changing behavior. Old references below to #31/#33 are **history**, not present code, and MUST NOT be used as a plan to restart these changes without new user instruction. Google Drive [canonical Handoff v0.35 §45](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) overrides historical NEXT; Master Spec v0.12 §27 is historical design context pending a coordinated revision. No vendor real data/cache/Backtest/OOS/trading permission was granted.
+**Source/test baseline restored to M2/P0.11 [commit #30](https://github.com/ngluonghoa/forex-trading-1-0/commit/aa411515d837e59664cf4a9fdfbe1a3caf7ab5e2).** The 48 files in `src/` and `tests/` have an identical tree to this baseline. Later M2/P0.12, M2/P0.13-DRIVE/EXEC and M2/P0.14 synthetic engineering changes have been withdrawn following the user's overlapping-conversation rollback request, not erased from Git history. See [rollback evidence](docs/FOREX_THREE_MILESTONE_REWIND_20261107.md). The former #32 fake encrypted TESTPAIR00 Drive files have been moved to Audit & Quarantine, not deleted; older #27 smoke retained.
 
+**Development is paused.** Do not treat PRs #31/#32/#33/#37 as currently deployed code or resume them without new user instruction. Canonical Google Drive Handoff will be updated with the final rollback checkpoint; Master Spec v0.12 §27 remains design-only and does not enable withdrawn code. No licensed market data cache, real historical Backtest, broker execution or production release.
 
 **M1/M2 read-only reference — synthetic engineering only, NO operational market data cache.** This repo is separate from Swing Trading 1.8, FX 2.0, CK 2.0 and Scanner.
 
@@ -15,14 +16,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.35, latest §45](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
-- [02 Master Spec v0.12](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
+- [00 Master Handoff v0.36 (rollback checkpoint), latest §41](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [02 Master Spec v0.11](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.35](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.12](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.36 (rollback checkpoint)](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
@@ -83,23 +84,8 @@
 - **Only an IN-MEMORY simulated Drive store and IN-MEMORY separate witness.** The demo detects staged crashes, broken pointer/witness, rollback and reopens the same memory state using a different session object. Neither is an authenticated Drive client, durable OS-restart exercise, external anti-rollback witness or distributed CAS.
 - Pins the synthetic security test dependency in `requirements-security-synthetic.txt`. Never place a real secret key in GitHub, Google Docs or a raw cache manifest. The earlier two actual connected Google Drive smoke files are **not encrypted by this milestone**. No real FX quotes, provider cache rights, licensed feed or trading.
 
-## M2/P0.13 — Actual Google Drive connector encrypted synthetic smoke
-
-- [Real Drive AES-GCM synthetic chunk and manifest receipt](docs/M2_P13_REAL_DRIVE_ENCRYPTED_SYNTHETIC_SMOKE.md). Connected Google Drive plugin uploaded a real **753-byte sealed TESTPAIR00 synthetic envelope** and a **644-byte manifest** into their proper staging folders, then raw downloaded both; exact byte SHA256, GCM authentication/decryption and manifest references verified.
-- **The 256-bit key is an intentionally PUBLIC test key**, not a production secret. This test proves the encryption/decryption data path and cloud file integrity only, **not confidentiality, authenticated cloud writer fencing, long-term key custody, real FX source entitlement, 5-minute 20-pair performance or encrypted production cache**. Temporary Docs were deleted after export; the two test files remain in staging.
-- New offline `synthetic_cloud_aead_receipt.py` and regression tests reconstruct actual byte/hash fixtures and reject tampering, bad manifest, wrong key/parent and forbidden release claims. CI does not contact Google Drive or any provider.
-
-## M2/P0.12 + P0.13 — weekly sub-window cache, encrypted fake Drive smoke and FX execution fixture
-
-The cross-project approved engineering standard keeps Forex independent from Vietnam stock trading and preserves native FX BID/ASK, DST, spread/swap and broker semantics. [PR #31](https://github.com/ngluonghoa/forex-trading-1-0/pull/31) added in-memory immutable **weekly sub-windows inside each pair/product/side/TF** partition; new/revised fake week regenerates only one week's mock object. [PR #32](https://github.com/ngluonghoa/forex-trading-1-0/pull/32) independently tested actual connected Google Drive upload/download of a **753-byte encrypted synthetic TESTPAIR00 envelope + 644-byte manifest using an intentionally PUBLIC TEST KEY**. It proves integrity/readback but NOT confidentiality, production encryption/key custody, vendor data entitlements or operational Cache. [PR #33](https://github.com/ngluonghoa/forex-trading-1-0/pull/33) added independent synthetic FX execution-cost reference: LONG ASK→BID, SHORT BID→ASK, net quote-currency PnL after explicit commission/slippage/signed swap; same-bar stop+target => AMBIGUOUS, no invented fill. Main [GitHub Actions 42363465304](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42363465304) **539/539 PASS each Python 3.11/3.12**, with all three independent workstreams merged. Latest native 00 Handoff v0.33 §43 includes complete canonical Spec v0.12 §27. No full historic Backtest, trade ledger, verified broker execution, licensed market-price cache, protected KMS/remote witness or live trading.
-
-## M2/P0.14 — Encrypted weekly synthetic cache bridge
-
-- [PR #37](https://github.com/ngluonghoa/forex-trading-1-0/pull/37) connects canonical per-week TEST-only serialized data with AES-256-GCM, a fake in-memory manifest pointer and selective chunk reuse. Changes to one old week or one new week create only the changed fake encrypted weekly object; unchanged weeks reuse prior sealed blobs. Missing historical candles, same-revision mutations, tampered ciphertext, wrong keys and stage-crash retries are tested.
-- [Milestone scope/limitations](docs/M2_P14_SEALED_WEEKLY_SYNTHETIC_REFERENCE.md), [independent merged-main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42368830398) **560/560 PASS each Python 3.11 and 3.12**. PUBLIC TEST KEY, caller-supplied fake FX data only: no persistent Drive weekly connector, no external witness, no true KMS/multiwriter CAS, no authorized vendor historical BID/ASK storage, no real speed results or trading.
-
 ## What does NOT exist
-No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no validated broker fill/SL/TP execution simulator (synthetic-only cost/ambiguity references exist), no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
+No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
 ## Running synthetic tests
 Requires Python 3.11+ (GitHub Actions uses Python 3.11 and 3.12). Synthetic security milestone additionally requires `python -m pip install -r requirements-security-synthetic.txt` (`cryptography==50.0.2`).
