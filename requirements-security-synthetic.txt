@@ -1,2 +1,0 @@
-# M2/P0.11: authenticated-encryption reference, tests only; no live FX storage rights.
-cryptography==50.0.2
