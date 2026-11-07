@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.26 §36. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.27 §37. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -63,10 +63,18 @@ No true entitlement/vendor source verification, independent TZDB/calendar attest
 - Neither OANDA/Twelve Data/Dukascopy account rights nor permanent data retention, selected host, real 5-minute active cache, source price correctness, actual 20-pair benchmark, source revision audit, full indicator/parity or Backtest/OOS are verified. MOCHI optional only, not used; M15001 prohibited.
 
 ## Documentation policy
-Canonical editable 00_MASTER_HANDOFF v0.23 §33 and 02_MASTER_SPEC v0.9 §24 remain on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
+Canonical editable 00_MASTER_HANDOFF v0.27 §37 and 02_MASTER_SPEC v0.10 §25 remain on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
 
 
 ## M2/P0.6 — Rights invalidation and atomic crash-window synthetic reference (2026-11-07)
 - [PR #19](https://github.com/ngluonghoa/forex-trading-1-0/pull/19) source head `5c4c22477ba57ed7173b01ed616aed0900b15de2`, squash merged main `5211ef2131cdaf4bef78b4629e46107f2626f2dc`. [PR CI 42334294778](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42334294778) PASS and independent [main CI 42334368272](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42334368272) PASS; Python 3.11 and Python 3.12 **374/374 synthetic tests each** (+25).
 - [Pure code and negative-path contract](M2_P06_SYNTHETIC_RIGHTS_AND_RECOVERY.md) models expiration/revocation source review -> targeted L1-L5 invalidation; distinct retroactive notice effective clock and local first-seen clock; simulated staged/committed generation with checksum/parent/pointer/rollback-floor checks. A caller-controlled pointer/floor is not a trusted external anchor.
 - No live licensed bars, vendor contract, host, persistent storage, scheduled actual API poll, 20-pair measured bytes/calls/latency, Backtest/OOS or broker order. No real-data permissions granted. No MOCHI/M15001 use; Spec v0.9 business logic unchanged.
+
+
+## M2/P0.7 — Selectable single / custom / all-pair synthetic scan dispatch (2026-11-07)
+- User-approved DEC-FX-021, registered in 01 Migration Register v0.13 §23 and 02 Master Spec v0.10 §25. Same underlying Smart Cache core; no independent three-engine implementation.
+- [Source PR #21](https://github.com/ngluonghoa/forex-trading-1-0/pull/21) merged main `4c265773f6949946c5f61b0f12d83bb90622b796`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42335378646) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42335427273) Python 3.11/3.12 each **397/397 synthetic tests PASS** (+23).
+- Typed mode SINGLE=1, CUSTOM=2–19, ALL=20 using caller-provided 20-pair catalog, all routed to existing synthetic sweep/delta planner; 1 selected pair needs only its own BID/ASK fixture streams; unselected cross-pair history not loaded or invalidated. Missing selected BID/ASK and invalid/duplicate catalog fail closed. Fake counters: 1/3/20 pairs = 10/30/200 streams, NOT source API performance.
+- Full 02 Spec v0.10 is re-embedded in 00 Handoff v0.27 §37; complete GitHub snapshots updated by a separate docs PR with independent exact-match verification.
+- No real provider rights/native BID/ASK, approved encrypted host, 5-minute production scan scheduler, live UI, per-pair speed, L2–L5 production features or Backtest/OOS/trading. No M15001/MOCHI use.
