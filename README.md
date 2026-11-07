@@ -57,6 +57,11 @@
 - `run_selected_synthetic_scan` reuses the SAME existing cache/sweep core and excludes unselected pairs before delta planning: 1 selected pair = 10 BID/ASK × 5 timeframe fixture streams, not 200. No cross-pair cache eviction, no network source request or production GUI was added.
 - Source/vendor authorization, durable cache, actual 5-minute polling, live price scan, measured API performance, detectors and trades remain NOT IMPLEMENTED/NOT APPROVED.
 
+## M2/P0.8 — Google Drive staging choice and mixed-scope cache reuse (synthetic only)
+- **User-selected destination**: Google Drive. [Staging/cache folder and contract](docs/M2_P08_GOOGLE_DRIVE_STAGING_AND_MIXED_SCAN_CACHE.md). Empty staging folder created inside the Forex project Drive; no real price data, credentials, or persistent cache files uploaded.
+- `synthetic_drive_cache_staging.py`: in-memory model of immutable chunk/manifests with checksums, stale-writer/crash/corruption negative paths; uses the prior L1 delta planner to run **5→20→1→20** chosen-pair scans. Existing partitions retain history; only missing 15 are bootstrapped on expansion. **ZERO real Google Drive/API calls, no live storage adapter**.
+- Real vendor cache permission, encryption/key/ACL/region, Drive file I/O/atomicity, 5-minute real source/Drive benchmark and L2–L5 runtime remain unverified/unimplemented. Google Drive is a storage destination, **not** an always-on scanner.
+
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
