@@ -99,10 +99,10 @@ def validate_synthetic_drive_connector_smoke(
     The function makes no network calls and never infers rights or rollback
     safety. It accepts exactly one harmless synthetic fixture, not OHLC.
     """
-    _check_file(chunk, expected_chunk_folder, "CHUNK")
-    _check_file(manifest, expected_manifest_folder, "MANIFEST")
     if expected_chunk_folder == expected_manifest_folder:
         _reject("CHUNK_MANIFEST_FOLDERS_MUST_BE_DISTINCT")
+    _check_file(chunk, expected_chunk_folder, "CHUNK")
+    _check_file(manifest, expected_manifest_folder, "MANIFEST")
     if chunk.file_id == manifest.file_id:
         _reject("CHUNK_AND_MANIFEST_FILE_IDS_MUST_DIFFER")
 
