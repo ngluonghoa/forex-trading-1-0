@@ -67,6 +67,12 @@
 - Tests include mixed **5→20→1→20** file-level reuse, ambiguous 503/429, duplicate filename/pagination, tamper/missing/wrong parent, size and digest corruption. **No live Drive REST token/network requests or files have been made by this module.**
 - Cloud storage operations, OAuth transport, safe concurrent multi-file commits, approved client-side encryption/rights and actual persistent production Forex cache are still pending.
 
+## M2/P0.10 — Real Google Drive connector smoke, synthetic files only
+
+- [Actual Google Drive connector chunk + manifest readback receipt](docs/M2_P10_REAL_DRIVE_SYNTHETIC_CONNECTOR_SMOKE.md). **Two real small synthetic text files** uploaded to existing staging folders with the connected Google Drive account: 141-byte TESTPAIR00 chunk + 439-byte manifest. Raw download verified byte-for-byte SHA256 matching exported originals and correct manifest reference. Temporary source Google Docs deleted.
+- New offline `synthetic_drive_receipt_validation.py` and regression tests validate the copied connector evidence, folder IDs, content-address names, manifest pointers, MIME, checksums and data-rights fail-closed flags. The validator itself does **not** call Drive; the previously implemented Python Drive wire port remains injected FAKE TRANSPORT, not authenticated real IO.
+- **No actual real FX candles were uploaded.** Cloud file smoke is not a transactional, encrypted, always-on or licensed Smart Cache and does not establish quota/latency at 5-minute 20-pair workload scale. Provider licensing, client-side keys/ACL/region, active manifest CAS/lease/rollback witness and restart recovery remain gates.
+
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
