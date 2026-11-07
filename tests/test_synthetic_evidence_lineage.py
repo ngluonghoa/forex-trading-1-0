@@ -182,12 +182,14 @@ class ForexSyntheticEvidenceLineageTests(unittest.TestCase):
         self.assertEqual(r.reason, "SNAPSHOT_CLOCK_ROLLBACK")
 
     def test_new_revised_bar_backdated_first_known_fails_closed(self):
-        p = snapshot_at()
-        b = p.closed_bars[0]
-        # A new revision cannot suddenly be known earlier than the old one.
-        tampered = replace(b, revision_number=2,
-                           first_known_utc=b.first_known_utc - timedelta(seconds=1))
-        n = snapshot_at(bars=(tampered,) + p.closed_bars[1:])
+        original = snapshot_at()
+        # Both variants are valid records on their own: observation first-known
+        # remains at 05:01, while the bar is claimed known at 07:00 then 06:00.
+        delayed = replace(original.closed_bars[0], first_known_utc=T + 7*M)
+        p = snapshot_at(bars=(delayed,) + original.closed_bars[1:])
+        tampered = replace(delayed, revision_number=2,
+                           first_known_utc=T + 6*M)
+        n = snapshot_at(bars=(tampered,) + original.closed_bars[1:])
         r = ev.compare_synthetic_evidence(p, n, declared(p), DECISION)
         self.assertEqual(r.change, ev.EvidenceChange.BLOCKED)
         self.assertEqual(r.reason, "REVISION_OR_CAUSAL_CLOCK_ROLLBACK")
@@ -242,19 +244,19 @@ class ForexSyntheticEvidenceLineageTests(unittest.TestCase):
         n2 = snapshot_at(checked=25, head="head-3")
         r1 = ev.compare_synthetic_evidence(p, n1, declared(p), DECISION)
         r2 = ev.compare_synthetic_evidence(n1, n2, declared(n1), DECISION)
-        first = ev.make_synthetic_lineage_event(r1, T + 27*M)
-        second = ev.make_synthetic_lineage_event(r2, T + 28*M, first)
+        first = ev.make_synthetic_lineage_event(r1, T + 41*M)
+        second = ev.make_synthetic_lineage_event(r2, T + 42*M, first)
         self.assertEqual(first.generation, 1)
         self.assertEqual(second.generation, 2)
         self.assertEqual(second.previous_event_sha256, first.event_sha256)
         self.assertTrue(ev.validate_synthetic_lineage_chain((first, second)))
-        self.assertEqual(first, ev.make_synthetic_lineage_event(r1, T + 27*M))
+        self.assertEqual(first, ev.make_synthetic_lineage_event(r1, T + 41*M))
 
     def test_tampered_event_chain_detected_but_not_trusted_storage(self):
         p = snapshot_at()
         n = snapshot_at(checked=23, head="head-2")
         report = ev.compare_synthetic_evidence(p, n, declared(p), DECISION)
-        first = ev.make_synthetic_lineage_event(report, T + 28*M)
+        first = ev.make_synthetic_lineage_event(report, T + 41*M)
         fake = replace(first, reason="forged-event")
         with self.assertRaisesRegex(ValueError, "LINEAGE_EVENT_DIGEST_MISMATCH"):
             ev.validate_synthetic_lineage_chain((fake,))
@@ -268,23 +270,30 @@ class ForexSyntheticEvidenceLineageTests(unittest.TestCase):
         p = snapshot_at()
         n = snapshot_at(checked=23, head="head-2")
         r1 = ev.compare_synthetic_evidence(p, n, declared(p), DECISION)
-        first = ev.make_synthetic_lineage_event(r1, T + 29*M)
+        first = ev.make_synthetic_lineage_event(r1, T + 43*M)
         with self.assertRaisesRegex(ValueError, "LINEAGE_EVENT_CLOCK_ROLLBACK"):
-            ev.make_synthetic_lineage_event(r1, T + 28*M, first)
+            ev.make_synthetic_lineage_event(r1, T + 42*M, first)
         with self.assertRaisesRegex(ValueError, "LINEAGE_CHAIN_SNAPSHOT_DISCONTINUITY"):
-            ev.make_synthetic_lineage_event(r1, T + 30*M, first)
+            ev.make_synthetic_lineage_event(r1, T + 44*M, first)
+
+    def test_lineage_event_cannot_predate_asof_decision(self):
+        p = snapshot_at()
+        n = snapshot_at(checked=23, head="new-head")
+        review = ev.compare_synthetic_evidence(p, n, declared(p), DECISION)
+        with self.assertRaisesRegex(ValueError, "LINEAGE_EVENT_PREDATES_ASOF_REVIEW"):
+            ev.make_synthetic_lineage_event(review, T + 39*M)
 
     def test_unchanged_event_not_written(self):
         p = snapshot_at()
         r = ev.compare_synthetic_evidence(p, p, declared(p), DECISION)
         with self.assertRaisesRegex(ValueError, "NO_LINEAGE_EVENT_NEEDED"):
-            ev.make_synthetic_lineage_event(r, T + 27*M)
+            ev.make_synthetic_lineage_event(r, T + 41*M)
 
     def test_provenance_review_records_immutable(self):
         p = snapshot_at()
         n = snapshot_at(checked=23, head="newhead")
         r = ev.compare_synthetic_evidence(p, n, declared(p), DECISION)
-        item = ev.make_synthetic_lineage_event(r, T + 30*M)
+        item = ev.make_synthetic_lineage_event(r, T + 41*M)
         with self.assertRaises(FrozenInstanceError):
             r.may_trade = True
         with self.assertRaises(FrozenInstanceError):
