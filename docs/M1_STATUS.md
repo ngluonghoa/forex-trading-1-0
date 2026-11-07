@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.29 §39. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.30 §40. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -92,3 +92,10 @@ Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 re
 - [Source PR #25](https://github.com/ngluonghoa/forex-trading-1-0/pull/25) squash main `b6fd4ba46910807229b6e378425e58b3da73b946`; [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42343185952) and [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42343227058) **430/430 synthetic unittest PASS** for each Python 3.11/3.12 (+19).
 - `google_drive_wire_contract.py` constructs Drive v3 list/upload multipart/metadata/media retrieval requests through an **INJECTED FAKE TRANSPORT**, not real authenticated Google Drive; validates immutable content addressing, Drive binary MD5, downloaded SHA256, size/MIME/parent and fail-closed duplicate/ambiguous writes. Wire-level 5→20→1→20 fake blobs only upload initial 20 objects, no unchanged rewrites.
 - Still no qualified account-specific licensed FX BID/ASK rights, authenticated Drive raw file I/O, storage ACL/encryption/key residency, multi-object atomic pointer/lease/external anti-rollback witness, real 5-minute speed/bytes quota, full L2–L5, Backtest/OOS, scheduler or broker operations. No MOCHI/M15001.
+
+## M2/P0.10 — Actual connector Google Drive synthetic chunk/manifest smoke (2026-11-07)
+
+- Decided Google Drive cache target remains DEC-FX-022; Handoff now v0.30 §40, 02 Master Spec v0.11 §26 unchanged, 06 QA v0.40 §52. Full extracted text in separate docs PR.
+- Live **Google Drive connector** upload/download, not an authenticated Google API transport *from the Python scanner*: [synthetic 141-byte chunk](https://drive.google.com/file/d/1HgjhwKJW2JzuO_OL8ODl45GdsW9bGv3h/view) and [synthetic 439-byte manifest](https://drive.google.com/file/d/1j7yevV6EgH7fyKj5uok5iOqrF1dGBegK/view). Independent source/download byte exact SHA256 match and manifest chunk ID/MD5/size match. Temporary Google Docs source export removed.
+- [Source PR #27](https://github.com/ngluonghoa/forex-trading-1-0/pull/27) merged main `32ad253ae8458e42776e11db48a20d9c1d8084b2`. [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346303057) and independent [main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42346358111) Python 3.11/3.12 each **448/448 synthetic tests PASS**, previous 430→448 +18. Offline validator checks real connector readback byte fixture, references, checksum and fail-closed malformed evidence; Python port still fake.
+- **NOT a licensed price data cache.** Only 2 harmless synthetic files, no timed workload or cross-session 5→20→1→20 production benchmark, no provider API calls, no client-side encryption/key/region approvals, no provider retention rights, no atomic multi-file commit/lease/rollback anchor, no automated polling, L2–L5/backtest/OOS/live trading. No MOCHI/M15001.
