@@ -10,14 +10,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.25, latest §35](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.26, latest §36](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.9](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
 - [06 QA](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.22](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.9](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.26](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.9](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
@@ -46,6 +46,11 @@
 ## M2/P0.5 — Account-specific data retention and storage review
 - [Rights-by-purpose & storage location checklist](docs/M2_P05_ACCOUNT_RIGHTS_STORAGE_REVIEW.md), [PR #17](https://github.com/ngluonghoa/forex-trading-1-0/pull/17), [verified main CI 42329604319](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42329604319): **349/349 synthetic tests per Python 3.11/3.12**.
 - Evaluates **claims only**: account/product/jurisdiction, purpose-specific historical API, raw retention/cache/indicator/replay/Backtest, expiry/revocation and candidate encrypted residency; no real-data rights automatically granted, no host chosen or data fetched.
+
+## M2/P0.6 — Synthetic rights invalidation and atomic recovery guards
+- [Design/negative-path receipt](docs/M2_P06_SYNTHETIC_RIGHTS_AND_RECOVERY.md), [PR #19](https://github.com/ngluonghoa/forex-trading-1-0/pull/19), [verified main CI 42334368272](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42334368272): **374/374 synthetic tests per Python 3.11/3.12**.
+- Scoped opaque partition fingerprint L1-L5 invalidation proposal for observed revocation/expiry; future-known notices do not retroactively become observed vendor events. Crash-stage/commit-marker checks reject torn pointer, corrupt parent and claimed rollback floor.
+- **NO active cache IO or restore**: commit pointers/generation floors are untrusted fixture claims; no approved account rights, independent vendor feed, persistent encrypted host or real HTTP five-minute performance.
 
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
