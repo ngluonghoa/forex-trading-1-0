@@ -62,6 +62,11 @@
 - `synthetic_drive_cache_staging.py`: in-memory model of immutable chunk/manifests with checksums, stale-writer/crash/corruption negative paths; uses the prior L1 delta planner to run **5→20→1→20** chosen-pair scans. Existing partitions retain history; only missing 15 are bootstrapped on expansion. **ZERO real Google Drive/API calls, no live storage adapter**.
 - Real vendor cache permission, encryption/key/ACL/region, Drive file I/O/atomicity, 5-minute real source/Drive benchmark and L2–L5 runtime remain unverified/unimplemented. Google Drive is a storage destination, **not** an always-on scanner.
 
+## M2/P0.9 — Google Drive v3 synthetic blob wire protocol
+- [Drive v3 multipart/list/readback synthetic-only contract](docs/M2_P09_GOOGLE_DRIVE_BLOB_WIRE_CONTRACT.md) adds a binary file request builder and **injected fake transport**. An immutable synthetic chunk is deduplicated by opaque partition SHA256 + content SHA256, uploaded in fake Drive wire form, checked against metadata and independently read back and hashed.
+- Tests include mixed **5→20→1→20** file-level reuse, ambiguous 503/429, duplicate filename/pagination, tamper/missing/wrong parent, size and digest corruption. **No live Drive REST token/network requests or files have been made by this module.**
+- Cloud storage operations, OAuth transport, safe concurrent multi-file commits, approved client-side encryption/rights and actual persistent production Forex cache are still pending.
+
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
