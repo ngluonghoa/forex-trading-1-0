@@ -1,6 +1,6 @@
 # Forex M1 status — GitHub main / M1/P0.3 source clock and BID/ASK provenance contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.21 §31. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.22 §32. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -17,7 +17,7 @@
 - GitHub Actions pinned to official checked commits `actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09` (v5) and `actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1` (v6). TZDB contents and Python patch versions not fully locked.
 
 ## Missing gates
-No true entitlement/vendor source verification, independent TZDB/calendar attestation, licensed historical BID/ASK, strategy predicates B2/S2 or other executable zone detectors, feed costs/fill/SL/TP, Backtest/OOS, runtime/cache, actual operational rollback or LKG. `FX-DC-01..08`, `FX-VR-01..20` and `TEST-TPX-01..32` formal test sets are not declared PASS merely because 97 synthetic tests pass. GitHub main currently reported protected=false; manual PR/CI governance is used but an enforced review rule is NOT verified (private repo ruleset plan limitations).
+No true entitlement/vendor source verification, independent TZDB/calendar attestation, licensed historical BID/ASK, strategy predicates B2/S2 or other executable zone detectors, feed costs/fill/SL/TP, Backtest/OOS, actual persistent cache/runtime or operational rollback/LKG. `FX-DC-01..08`, `FX-VR-01..20` and `TEST-TPX-01..32` formal test sets are not declared PASS merely because 97 synthetic tests pass. GitHub main currently reported protected=false; manual PR/CI governance is used but an enforced review rule is NOT verified (private repo ruleset plan limitations).
 
 
 ## M1/P0.3 — TZif byte pin and BID/ASK source coherence (2026-11-07)
@@ -35,6 +35,14 @@ No true entitlement/vendor source verification, independent TZDB/calendar attest
 - `assess_source_for_m2_review` can mark supplied CLAIM records ready for external legal/account review. `vendor_entitlement_independently_verified`, `may_ingest_real_data`, `may_cache_or_store_real_data`, `may_run_real_backtest` **always False**. No actual vendor account contract, license, native BID/ASK historical source, source sample/revision or real market Backtest has been validated.
 - Official technical candidate documentation: OANDA v20 historical BID/ASK candle support but historical/account-price mismatch warning, Dukascopy historical ticks/bar side, Twelve Data Forex generic OHLC with native two-sided historical price support not independently established. API connection/quota does NOT imply retention or backtest rights.
 - **M2 verdict: PUBLIC_CAPABILITY_RESEARCH_ONLY / RIGHTS_AND_NATIVE_BIDASK_NOT_QUALIFIED**. Do not promote vendor or indicator/detector to ready, no data retrieval/storage, no real trading.
+
+## M2/P0.2 — Forex Smart Incremental Cache (2026-11-07)
+- [GitHub PR #11](https://github.com/ngluonghoa/forex-trading-1-0/pull/11) merged `caf0df610aeb5dd5b8e9e6ef01f41d5827f29e32`.
+- PR CI [42323752852](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42323752852) and postmerge main CI [42323816487](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42323816487) each Python 3.11 and 3.12 **224/224 synthetic tests PASS**.
+- `cache_core`: versioned partition/closed-bar snapshots, bounded source delta plan with source-head claims not authenticated, immutable APPEND/REVISE/NO_CHANGE reconciliation, first-dirty UTC, no in-place rewrite or silent eviction.
+- `cache_dependency`: selective L1–L5 invalidate by explicit dependencies, digest includes algorithm+params/input lineage, audit rerun required despite reuse.
+- `cache_indicators`: experimental Decimal EMA full vs append/revision parity only. Other indicators, native data adapters, retention-rights, durable storage/restart/recovery, automatic 5-minute checks and real performance SLO remain **NOT IMPLEMENTED/NOT VERIFIED**.
+- Forex Master Spec **v0.9 §24**, Migration Register v0.12 §22 DEC-FX-020, Handoff v0.22 §32 including full v0.9 Spec copy. Source/snapshot exact match to be verified after docs PR merge.
 
 ## Documentation policy
 Canonical editable 00_MASTER_HANDOFF v0.19 §29 and 02_MASTER_SPEC v0.8 are on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
