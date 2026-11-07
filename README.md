@@ -52,6 +52,11 @@
 - Scoped opaque partition fingerprint L1-L5 invalidation proposal for observed revocation/expiry; future-known notices do not retroactively become observed vendor events. Crash-stage/commit-marker checks reject torn pointer, corrupt parent and claimed rollback floor.
 - **NO active cache IO or restore**: commit pointers/generation floors are untrusted fixture claims; no approved account rights, independent vendor feed, persistent encrypted host or real HTTP five-minute performance.
 
+## M2/P0.7 — Single / custom / all scope selector (synthetic reference)
+- [Approved scan-mode selection and isolation contract](docs/M2_P07_SELECTABLE_SCAN_MODES.md). A pure typed selector supports exactly one pair, 2–19 custom pairs, or all 20 from a caller-provided approved catalog.
+- `run_selected_synthetic_scan` reuses the SAME existing cache/sweep core and excludes unselected pairs before delta planning: 1 selected pair = 10 BID/ASK × 5 timeframe fixture streams, not 200. No cross-pair cache eviction, no network source request or production GUI was added.
+- Source/vendor authorization, durable cache, actual 5-minute polling, live price scan, measured API performance, detectors and trades remain NOT IMPLEMENTED/NOT APPROVED.
+
 ## What does NOT exist
 No executable detector predicates, no calibrated thresholds, no trade eligibility engine, no brokerage connectivity, no licensed FX price feed, no bid/ask fill/SL/TP simulator, no historical Backtest, no OOS or paper validation, and no active/LKG production release. M1 CI tests only synthetic software invariants.
 
