@@ -1,9 +1,7 @@
 """M2/P0.8 Google Drive STAGING synthetic cross-scope cache acceptance."""
 import unittest
-from dataclasses import replace
 from datetime import timedelta
 
-from forex_trading.cache_core import CandleSnapshot
 from forex_trading.market_data import BarSide, Timeframe
 from forex_trading.scan_selection import ScanMode
 from forex_trading.synthetic_drive_cache_staging import (
@@ -13,7 +11,7 @@ from test_synthetic_scan_workload import (
     T, DECISION, POLICY, make_fixture, workload,
 )
 
-FOLDER = "12iWh528iFnfF6zyHBGpI4WFOSrrubmX5"
+FOLDER = "SYNTHETIC_DRIVE_FOLDER_ONLY"
 UNIVERSE = tuple("TESTPAIR%02d" % i for i in range(20))
 FIVE = UNIVERSE[:5]
 
