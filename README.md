@@ -78,9 +78,9 @@
 - **Only an IN-MEMORY simulated Drive store and IN-MEMORY separate witness.** The demo detects staged crashes, broken pointer/witness, rollback and reopens the same memory state using a different session object. Neither is an authenticated Drive client, durable OS-restart exercise, external anti-rollback witness or distributed CAS.
 - Pins the synthetic security test dependency in `requirements-security-synthetic.txt`. Never place a real secret key in GitHub, Google Docs or a raw cache manifest. The earlier two actual connected Google Drive smoke files are **not encrypted by this milestone**. No real FX quotes, provider cache rights, licensed feed or trading.
 
-## M2/P0.12 — Actual Google Drive connector encrypted synthetic smoke
+## M2/P0.13 — Actual Google Drive connector encrypted synthetic smoke
 
-- [Real Drive AES-GCM synthetic chunk and manifest receipt](docs/M2_P12_REAL_DRIVE_ENCRYPTED_SYNTHETIC_SMOKE.md). Connected Google Drive plugin uploaded a real **753-byte sealed TESTPAIR00 synthetic envelope** and a **644-byte manifest** into their proper staging folders, then raw downloaded both; exact byte SHA256, GCM authentication/decryption and manifest references verified.
+- [Real Drive AES-GCM synthetic chunk and manifest receipt](docs/M2_P13_REAL_DRIVE_ENCRYPTED_SYNTHETIC_SMOKE.md). Connected Google Drive plugin uploaded a real **753-byte sealed TESTPAIR00 synthetic envelope** and a **644-byte manifest** into their proper staging folders, then raw downloaded both; exact byte SHA256, GCM authentication/decryption and manifest references verified.
 - **The 256-bit key is an intentionally PUBLIC test key**, not a production secret. This test proves the encryption/decryption data path and cloud file integrity only, **not confidentiality, authenticated cloud writer fencing, long-term key custody, real FX source entitlement, 5-minute 20-pair performance or encrypted production cache**. Temporary Docs were deleted after export; the two test files remain in staging.
 - New offline `synthetic_cloud_aead_receipt.py` and regression tests reconstruct actual byte/hash fixtures and reject tampering, bad manifest, wrong key/parent and forbidden release claims. CI does not contact Google Drive or any provider.
 
