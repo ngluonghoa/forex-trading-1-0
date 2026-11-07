@@ -247,11 +247,14 @@ class EncryptedRealConnectorReceiptTests(unittest.TestCase):
 
     def test_missing_bom_malformed_or_large_file_rejected(self):
         c, _ = inputs()
-        for b in (c.body[3:], b"not-json", b"\xef\xbb\xbf{" + b"x" * 20000):
+        samples = (
+            (c.body[3:], "NOT_APPROVED_GOOGLE_DOCS_EXPORT_BYTES"),
+            (b"not-json", "INVALID_BOUNDED_FILE_BYTES"),
+            (b"\xef\xbb\xbf{" + b"x" * 20000, "INVALID_BOUNDED_FILE_BYTES"),
+        )
+        for b, reason in samples:
             bad = changed(c, b, "fxsynthetic-m2p12-aead-")
-            with self.subTest(size=len(b)), self.assertRaisesRegex(
-                ValueError, "NOT_APPROVED_GOOGLE_DOCS_EXPORT_BYTES"
-            ):
+            with self.subTest(size=len(b)), self.assertRaisesRegex(ValueError, reason):
                 validate(c=bad)
 
     def test_extra_chunk_or_manifest_fields_rejected(self):
