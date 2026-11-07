@@ -1,9 +1,9 @@
 # P2.1 — Forex Module Boundary & Dependency Audit (DESIGN ONLY)
-Date: 2026-11-07 | Status: P2.1 DESIGN ACCEPTED / FIRST REFACTOR MERGED #48 | Scope: audited baseline plus scoped independent code PR
+Date: 2026-11-07 | Status: P2.1-A AND P2.1-B REFACTOR MERGED #48 / #50 | Scope: audited baseline plus scoped independent code PR
 Project: Forex Trading 1.0, private GitHub repo
 Source reference: main 2a78ac532702ee543f064ccf7c57f9c4e941dc58
 Original executable baseline: M2/P0.10 PR #28 7f0904eefad9afe3da7bbaab522d8c59b6847c9e
-Canonical design: native 02_FOREX_MASTER_SPEC v0.11 §26; canonical governance: native 00_MASTER_HANDOFF v0.38 §48; QA §68.
+Canonical design: native 02_FOREX_MASTER_SPEC v0.11 §26; canonical governance: native 00_MASTER_HANDOFF v0.40 §50; QA §70 (original rollback audit §68 historical).
 IMPORTANT: This proposal DOES NOT supersede any canonical document, and DOES NOT restore withdrawn M2/P0.11–P0.14 code.
 
 ## 1. Decision and scope
@@ -43,7 +43,7 @@ flowchart TD
   QUOTES --> MODEL["model.py"]
 ```
 
-### Target boundary after future PR A (not implemented)
+### Target boundary after P2.1-A (implemented PR #48)
 ```mermaid
 flowchart TD
   CONTRACT["scan_contract.py: selection types and plan"]
@@ -88,7 +88,7 @@ synthetic_drive_receipt_validation.py validates copied synthetic files offline. 
 
 **Rollback of PR A:** Revert only PR A via reviewed GitHub PR after confirming no downstream importers/new schema dependency. No changes to data, manifests, migrations, Drive objects, signal rules or approved business catalog are expected.
 
-## 5. Proposed future small PR B — synthetic cache store/orchestrator split
+## 5. PR B — synthetic cache store/orchestrator split (IMPLEMENTED #50)
 Only after PR A is verified: retain SyntheticDriveCacheStaging, SyntheticChunk and manifest validation in store module; relocate run_mixed_scope_synthetic_drive_scan and MixedScanResult to a synthetic-only orchestrator. Keep legacy imports as re-exports. Verify exact 5→20→1→20 fixture equivalence, stale writer/crash/quarantine behavior, and zero real IO. Must be its own independently reversible PR.
 
 ## 6. Non-goals and safety gates
@@ -106,11 +106,20 @@ Only after PR A is verified: retain SyntheticDriveCacheStaging, SyntheticChunk a
 - [x] Review/accept this plan as a design artifact (user authorized continuation).
 - [x] Implement PR A via independent feature PR #48 (merged e8cf43830fd6f7086f4366a43363d3eabb2d99f4).
 - [x] Verify PR #48 Actions 42391199891: 454/454 tests PASS in Python 3.11 and 3.12 (448 previous + 6 new). Merge diff exactly 3 allowed source/test files. Postmerge main CI still requires independent readback.
-- [ ] Consider future PR B only after PR A success.
+- [x] PR B completed separately: source PR #50 merged 238de5454187c2312e885d45dbcae6107e25818f; 461/461 synthetic CI tests PASS per Python 3.11 and 3.12.
 
 ## 8. Implementation receipt (after approval to continue)
 - User requested continuation in the single active Forex conversation. PR A #48 MERGED squash commit e8cf43830fd6f7086f4366a43363d3eabb2d99f4; source branch feature/p2-1-selection-contract-isolation.
 - GitHub Actions PR run 42391199891 passed. Verified job logs: Python 3.11 Ran 454 tests OK; Python 3.12 Ran 454 tests OK.
 - The code is a single new dependency-free selection module plus legacy re-export and six tests, not a restored cache/crypto/backtest milestone. No provider requests or Drive writes were performed by new code.
 - The original M2/P0.10 commit 7f0904e remains the immutable historical rollback checkpoint. Current main is now an explicitly reviewed post-baseline P2.1 refactor; do not assert 47/47 original file parity remains TRUE for active main (three intentional differences).
-- Postmerge main Actions result has not been independently checked via the current connector; do not claim it passed. Native Drive 00/06 documentation synchronization is separate and must preserve authoritative historical receipts. PR B remains NOT_STARTED.
+- Postmerge main Actions result has not been independently checked via the current connector; do not claim it passed. Native Drive 00/06 documentation synchronization is separate and must preserve authoritative historical receipts. PR B is MERGED via reviewed PR #50; full evidence §9.
+
+## 9. P2.1-B completion receipt (verified after source merge)
+
+- Source change PR [#50](https://github.com/ngluonghoa/forex-trading-1-0/pull/50) MERGED squash SHA `238de5454187c2312e885d45dbcae6107e25818f`. Exact four paths: `src/forex_trading/synthetic_drive_cache_store.py` (new), `src/forex_trading/synthetic_drive_scan_orchestrator.py` (new), `src/forex_trading/synthetic_drive_cache_staging.py` (legacy compatibility shim), `tests/test_synthetic_cache_boundary.py` (7 new synthetic tests).
+- Store module now has NO scan/orchestrator dependency. Orchestrator module depends on store and pure `scan_contract`. Legacy API names still re-export original canonical class/function objects by identity. All original `run_mixed_scope_synthetic_drive_scan` arguments, default timeframes, input guards and return fields preserved.
+- Independently fetched pre-PR source and postmerge modules: original Action+Chunk block (394 chars), cache store class (5354), MixedScanResult (533), mixed-scope runner (4818) are exact matching source-text bodies. No algorithmic body edit, only module boundary/imports and added tests.
+- [GitHub Actions PR run 42392919832](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42392919832) completed SUCCESS. Independently fetched logs: Python 3.11 **Ran 461 tests OK**; Python 3.12 **Ran 461 tests OK** (existing 454 + 7). Fixture suite covers 5→20→1→20, source corrections, no cross-pair eviction, stale generation, crash orphan, damaged head/chunk, missing BID/ASK/TF fail-closed and absent real IO flags. Independent postmerge MAIN-push CI not separately verified; remain accurate about evidence.
+- Original immutable historical M2/P0.10 source checkpoint `7f0904e` remains. From it to P2.1-B main, seven specific source/test paths intentionally differ (3 in PR #48 + 4 in PR #50). Withdrawn M2/P0.11–M2/P0.14 prototype code remains absent. No vendor data, authenticated Drive transport, real cache, broker, Backtest or release.
+- Canonical governance on Drive: Handoff v0.40 §50; QA v0.55 §70; 02 Master Spec v0.11 §26 unchanged. Next work P2.2 is a data-contract architecture review only; new code requires separate scoped review/CI gates.
