@@ -1,3 +1,9 @@
+# Latest controlled rollback Handoff snapshot (2026-11-07)
+
+Canonical [Forex Master Handoff v0.35 §45](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit) supersedes historical §44. The frozen [00 text snapshot](source-snapshots/00_MASTER_HANDOFF.txt) is the **exact concatenation of 1662 native Google Docs paragraph texts with newline separators and a trailing newline**, 442816 characters as captured after the selective user-requested rollback. The previously normalized [02 Spec v0.12 text](source-snapshots/02_MASTER_SPEC.txt) is intentionally unchanged. Rollback [PR #39](https://github.com/ngluonghoa/forex-trading-1-0/pull/39) main `291e9942ae18587781fb7b0ae4d641be010df646` [postmerge CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42371889929) **513 tests pass each Python 3.11/3.12**. Removed standalone #31/#33, preserved other conversation #32/#37/#38 with minimum local compatibility types. Source history retained. Do not infer real Forex data rights, historical Backtest or trades.
+
+---
+
 # Forex Trading 1.0 — canonical full-text Google Docs snapshot manifest
 
 **2026-11-07 (Asia/Ho_Chi_Minh).** Native Google Drive documents remain the editable policy/design authorities; GitHub `docs/source-snapshots` stores full **exact extracted paragraph-text** point-in-time copies for independent engineering and rollback. This minor normalization follows [docs PR #34](https://github.com/ngluonghoa/forex-trading-1-0/pull/34), whose Google Docs text/plain exports were content-equivalent but used UTF-8 BOM, CRLF, extra heading newlines and table/list tabs. Those exports normalized precisely to the authoritative paragraph text; no factual source content was lost. Conflicting [PR #35](https://github.com/ngluonghoa/forex-trading-1-0/pull/35) was deliberately closed without merge, not forced over PR #34.
