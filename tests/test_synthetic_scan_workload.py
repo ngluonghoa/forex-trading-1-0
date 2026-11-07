@@ -198,12 +198,11 @@ class SyntheticRepeatScanTests(unittest.TestCase):
     def test_mismatched_source_partition_is_rejected(self):
         b=make_fixture(side=BarSide.BID)
         a=make_fixture(side=BarSide.ASK)
-        other=replace(a, complete_oracle=replace(
-            a.complete_oracle,
-            partition=replace(a.complete_oracle.partition,provider_id="other"),
-        ))
         with self.assertRaisesRegex(ValueError,"PARTITION"):
-            SyntheticScanFixture(other.cached,other.complete_oracle,other.head_claim)
+            replace(
+                a.complete_oracle,
+                partition=replace(a.complete_oracle.partition,provider_id="other"),
+            )
 
     def test_future_oracle_snapshot_is_rejected(self):
         b=make_fixture(side=BarSide.BID)
