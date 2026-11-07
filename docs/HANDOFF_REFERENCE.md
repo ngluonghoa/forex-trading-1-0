@@ -1,8 +1,8 @@
 # Source-of-truth and text-snapshot policy
 
-- Canonical **Google Drive Handoff v0.42 §52 (LATEST P2.2-A source stream binding PR #54; P2.2 review §51, P2.1-B §50, P2.1-A §49; original M2/P0.10 rollback §48/§40; normative Spec v0.11 unchanged)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
+- Canonical **Google Drive Handoff v0.43 §53 (LATEST P2.2-B dual digest PR #56; P2.2-A §52; P2.2 review §51; original M2/P0.10 rollback §48/§40; normative Master Spec v0.11 unchanged)**: https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit
 - Canonical **Google Drive Master Spec v0.11 §26 (active, EXACT original M2/P0.10 content)**: https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit
-- Canonical Google Drive QA v0.57 §72: https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit
+- Canonical Google Drive QA v0.58 §73: https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit
 - Snapshots in GitHub: [00 text](source-snapshots/00_MASTER_HANDOFF.txt) and [02 text](source-snapshots/02_MASTER_SPEC.txt).
 - Provenance, source revisions and exact-text comparison: [HANDOFF_SNAPSHOT_MANIFEST](HANDOFF_SNAPSHOT_MANIFEST.md).
 
@@ -15,3 +15,5 @@ P2.1-B source PR #50 https://github.com/ngluonghoa/forex-trading-1-0/pull/50 mer
 P2.2 review PR #52 https://github.com/ngluonghoa/forex-trading-1-0/pull/52 merged main fb62ba24d87ba1024ac9ccda285554f504dea284, adding only docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md. PR CI 42394635779 shows 461/461 PASS each Python 3.11 and 3.12. Findings are read-only design gaps; P2.2-A..E code not started. Source SHA 238de5454 (P2.1-B) remains code baseline; native Master Spec 02 v0.11 §26 not changed. Independent postmerge MAIN CI not verified.
 
 P2.2-A source [PR #54](https://github.com/ngluonghoa/forex-trading-1-0/pull/54) merged squash `026e3defc661098eb5648f4f56b7afb92008721f`; only two new paths source_stream_binding.py and test_source_stream_binding.py, 15 new synthetic tests. PR GitHub Actions 42395599590 Python 3.11/3.12 each 476/476 PASS. Current source remains synthetic-only and source/product rights UNVERIFIED. Next P2.2-B is NOT STARTED. QA §72 is authoritative, postmerge main CI not independently verified.
+
+P2.2-B source [PR #56](https://github.com/ngluonghoa/forex-trading-1-0/pull/56) merged code SHA `92729806442cdd6b2abe6287f8995d5b1a588b61` (two additive paths: synthetic_evidence_lineage.py and 26 new tests). GitHub Actions 42397147771 Python 3.11 and 3.12 each verified 502/502 PASS; read-only synthetic-only dual price/provenance digest and SHA-linked lineage event fixture, no existing cache/runtime modifications. Canonical QA §73; next P2.2-C not yet started. Independent postmerge main push CI unverified; original M2/P0.10 historical source rollback unchanged.
