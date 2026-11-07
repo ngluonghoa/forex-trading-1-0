@@ -243,7 +243,7 @@ class ForexCacheCoreTests(unittest.TestCase):
 
     def test_stale_revision_fails_closed(self):
         with self.assertRaisesRegex(ValueError,"OLDER_OR_SAME"):
-            reconcile_closed_delta(snapshot(),(bar(1,revision=2,known_minute=14),),
+            reconcile_closed_delta(snapshot(),(bar(1,revision=2,known_minute=10),),
                                   T+21*M,new_source_head_claim="head")
 
     def test_duplicate_delta_fails_closed(self):
