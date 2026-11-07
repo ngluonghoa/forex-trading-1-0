@@ -213,9 +213,10 @@ class SyntheticAtomicRecoveryTests(unittest.TestCase):
         r = evaluate_synthetic_atomic_recovery(
             second, None, second.manifest_sha256, plan(), stable_parent=bad
         )
-        # A parent object is not external proof, but an internally consistent
-        # child pointing at the wrong parent still fails its link check.
-        self.assertEqual(r.state, SyntheticRecoveryState.STABLE_GENERATION)
+        # Parent hash chain link alone is not sufficient: verify parent
+        # checksum independently before accepting the child.
+        self.assertEqual(r.state, SyntheticRecoveryState.FAIL_CLOSED)
+        self.assertIn("STABLE_MANIFEST_INVALID", r.reasons[0])
         self.assertFalse(r.may_restore_real_data)
 
     def test_no_file_io_methods_claimed(self):
