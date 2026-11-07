@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.28 §38. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.29 §39. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -85,3 +85,10 @@ Canonical editable 00_MASTER_HANDOFF v0.28 §38 and 02_MASTER_SPEC v0.11 §26 re
 - [Source PR #23](https://github.com/ngluonghoa/forex-trading-1-0/pull/23) main merge `4a8a22aa05283365c904edb9f339004ed9fb79ce`, [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42336926925), [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42336970810): Python 3.11/3.12 **411/411 SYNTHETIC tests per version**, +14.
 - New `synthetic_drive_cache_staging.py` is an in-memory mock: 5→20→1→20 scan reuses 5 first pairs' valid cache, 15 others bootstrap on expansion, no re-writing unchanged chunks after; scoped source reads, source revisions and corrupt-pointer/stale-writer/orphan-crash negative paths. No Google Drive/API/authenticated vendor IO, no cross-session durable file proof or L2–L5 production engine.
 - Account rights for real price/derived data retention and backtest, Drive encrypted storage/key/ACL/region and approved real adapter, authenticated source delta, 5-minute real performance, recovery drill, backtest/OOS remain BLOCKED; no MOCHI/M15001/paid hosting/broker order.
+
+
+## M2/P0.9 — Google Drive raw-blob wire contract (2026-11-07)
+- User-approved Google Drive cache destination remains DEC-FX-022 and 02 Master Spec v0.11 §26 **unchanged**. 00 Handoff checkpoint now v0.29 §39; 06 QA v0.39 §50.
+- [Source PR #25](https://github.com/ngluonghoa/forex-trading-1-0/pull/25) squash main `b6fd4ba46910807229b6e378425e58b3da73b946`; [PR CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42343185952) and [independent main CI](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42343227058) **430/430 synthetic unittest PASS** for each Python 3.11/3.12 (+19).
+- `google_drive_wire_contract.py` constructs Drive v3 list/upload multipart/metadata/media retrieval requests through an **INJECTED FAKE TRANSPORT**, not real authenticated Google Drive; validates immutable content addressing, Drive binary MD5, downloaded SHA256, size/MIME/parent and fail-closed duplicate/ambiguous writes. Wire-level 5→20→1→20 fake blobs only upload initial 20 objects, no unchanged rewrites.
+- Still no qualified account-specific licensed FX BID/ASK rights, authenticated Drive raw file I/O, storage ACL/encryption/key residency, multi-object atomic pointer/lease/external anti-rollback witness, real 5-minute speed/bytes quota, full L2–L5, Backtest/OOS, scheduler or broker operations. No MOCHI/M15001.
