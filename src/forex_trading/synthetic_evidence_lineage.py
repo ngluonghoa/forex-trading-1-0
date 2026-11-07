@@ -105,6 +105,7 @@ class SyntheticEvidenceReview:
     propose_new_price_chunk: bool
     propose_lineage_event: bool
     rights_event: RightsEvent
+    reviewed_as_of_utc: datetime
     # These are NEVER permissions to use real licensed data.
     vendor_rights_verified: bool = False
     may_reuse_real_cached_data: bool = False
@@ -154,7 +155,7 @@ def compare_synthetic_evidence(
             change in (EvidenceChange.CAUSAL_REPLAY_REVIEW, EvidenceChange.PRICE_DIRTY),
             change is EvidenceChange.PRICE_DIRTY,
             (changed and not blocked) or rights_event is not RightsEvent.UNVERIFIED,
-            rights_event,
+            rights_event, decision_utc,
         )
 
     # Revocation is a distinct fail-closed control-plane event, not a
@@ -259,6 +260,8 @@ def make_synthetic_lineage_event(
     if not isinstance(review, SyntheticEvidenceReview):
         raise TypeError("TYPED_EVIDENCE_REVIEW_REQUIRED")
     ensure_utc(observed_at_utc, "observed_at_utc")
+    if observed_at_utc < review.reviewed_as_of_utc:
+        raise ValueError("LINEAGE_EVENT_PREDATES_ASOF_REVIEW")
     if previous is not None and not isinstance(previous, SyntheticLineageEvent):
         raise TypeError("TYPED_PREVIOUS_LINEAGE_EVENT_REQUIRED")
     if not review.propose_lineage_event:
