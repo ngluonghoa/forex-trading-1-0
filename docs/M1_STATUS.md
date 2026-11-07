@@ -1,6 +1,6 @@
 # Forex M1–M2 status — read-only source, incremental cache, rights and storage contracts
 
-**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.23 §33. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
+**Current implementation checkpoint:** 2026-11-07 (Asia/Ho_Chi_Minh), 00 Google Drive Master Handoff v0.24 §34. Private repo `ngluonghoa/forex-trading-1-0` (not Swing). GitHub is canonical code and CI; MOCHI optional, NOT used; M15001 NOT AUTHORIZED.
 
 | Code/document checkpoint | Merge SHA | PR CI observed | Main CI observed |
 | --- | --- | --- | --- |
@@ -42,13 +42,19 @@ No true entitlement/vendor source verification, independent TZDB/calendar attest
 - `cache_core`: versioned partition/closed-bar snapshots, bounded source delta plan with source-head claims not authenticated, immutable APPEND/REVISE/NO_CHANGE reconciliation, first-dirty UTC, no in-place rewrite or silent eviction.
 - `cache_dependency`: selective L1–L5 invalidate by explicit dependencies, digest includes algorithm+params/input lineage, audit rerun required despite reuse.
 - `cache_indicators`: experimental Decimal EMA full vs append/revision parity only. Other indicators, native data adapters, retention-rights, durable storage/restart/recovery, automatic 5-minute checks and real performance SLO remain **NOT IMPLEMENTED/NOT VERIFIED**.
-- Forex Master Spec **v0.9 §24**, Migration Register v0.12 §22 DEC-FX-020, Handoff v0.23 §33 including full v0.9 Spec copy. Source/snapshot exact match to be verified after docs PR merge.
+- Forex Master Spec **v0.9 §24**, Migration Register v0.12 §22 DEC-FX-020, Handoff v0.24 §34 including full v0.9 Spec copy. Source/snapshot exact match to be verified after docs PR merge.
 
 ## M2/P0.3 — Synthetic-only bounded provider fixture and storage review (2026-11-07)
 - [PR #13](https://github.com/ngluonghoa/forex-trading-1-0/pull/13) merged main SHA `1f46b7e1df871609a19e53c8369cce5819f4eb70`. First PR CI 42325628149 failed exactly one schema-classification negative test; fixed before merge. Final [PR CI 42325690593](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42325690593) and [main CI 42325743265](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42325743265) each **275/275 synthetic tests on Python 3.11 and 3.12**.
 - `provider_delta_contract.py` validates OANDA-v20-shaped synthetic BID and ASK complete n-sided OHLC, UTC/range and overlap append/correction, no network or cache rights. H4/D1/W1 provider session alignment not enabled until verified.
 - `cache_storage_review.py` evaluates encryption/atomic/retention/backup/append-only/revocation claims; its checksum generation chain is METADATA ONLY. No real IO, host/runtime selection or trusted source authorization, no real 5-minute scans/backtests.
 - Real-data source terms, source correctness, persistent storage restart & rollback, 20-pair performance and full indicator parity remain OPEN. [M2/P0.3 design](M2_P03_PROVIDER_DELTA_AND_STORAGE_REVIEW.md).
+
+## M2/P0.4 — 20-pair synthetic repeat scans and source custody (2026-11-07)
+- [PR #15](https://github.com/ngluonghoa/forex-trading-1-0/pull/15) main merge `336c87bebd1af2752211ac8da4fc86be3316c30c`, [PR CI 42327775902](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42327775902) and [main CI 42327843231](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42327843231) **310/310 synthetic unit tests on each Python 3.11 and 3.12**.
+- `synthetic_scan_workload`: 20 fake pair identifiers × BID+ASK × 5 TF = 200 partitions. 1640 full-row counterfactual vs 120 synthetic bounded rows in a claimed unchanged-head scenario; 40 planned bounded windows; no real API calls/bytes/time/rights measured. No authenticated provider HEAD; correction outside overlap flagged by test-only full oracle, not detectable in real runtime without genuine source changes/reconciliation.
+- `synthetic_source_custody`: first-seen local UTC, as-of replay guard, ordinal/parent-hash receipt checks; no independent vendor attestation or external immutable anchoring.
+- 02 Spec remains v0.9 §24 (DEC-FX-020), 00 Handoff v0.24 §34. Production storage, active five-minute scanner, source license, source-specific candles/calendar, real benchmark, full L2–L5 runtime and Backtest/OOS remain NOT VERIFIED/NOT IMPLEMENTED.
 
 ## Documentation policy
 Canonical editable 00_MASTER_HANDOFF v0.23 §33 and 02_MASTER_SPEC v0.9 §24 remain on Google Drive. GitHub `docs/source-snapshots/` is **point-in-time extracted text**, not native Google Docs formatting nor real-time sync. [Revision manifest](HANDOFF_SNAPSHOT_MANIFEST.md) tracks source versions and equality checks. Current docs PR merges and main verification require independent receipts; it cannot certify user source rights.
