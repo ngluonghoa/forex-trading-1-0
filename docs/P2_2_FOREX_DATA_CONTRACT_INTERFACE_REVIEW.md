@@ -1,7 +1,7 @@
 # P2.2 — Forex Data Contract & Interface Review
 
 **Review date:** 2026-11-08 (Asia/Ho_Chi_Minh)  
-**Status:** REVIEW COMPLETE / P2.2-A IMPLEMENTED IN SEPARATE PR #54 — ORIGINAL REVIEW FINDINGS AND PLANS HISTORICAL  
+**Status:** REVIEW COMPLETE / P2.2-A #54 + P2.2-B #56 IMPLEMENTED IN SEPARATE PRs — ORIGINAL PLANS HISTORICAL  
 **GitHub baseline examined:** `main` `941e2ef775e03ef77b1ce76fed32a3e0a38f2959` (P2.1-A+B code and docs).  
 **Canonical authority:** native `02_FOREX_MASTER_SPEC` v0.11 §26; `00_MASTER_HANDOFF` v0.40 §50; QA v0.55 §70, prior rollback QA §68.  
 **Immutable historical rollback checkpoint:** `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` (original M2/P0.10). It is not current HEAD.
@@ -133,3 +133,15 @@ P2.2-A is **a proposal**, not started by this documentation PR. Each code PR req
 **Acceptance:** [GitHub Actions run 42395599590](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42395599590) completed SUCCESS; independently fetched job logs show **476/476 tests PASS in Python 3.11** and **476/476 tests PASS in Python 3.12** (461 prior + 15 new). Cross-stream, endpoint, provider, broker product, rights-policy, schema, TF/side, causal retrieval and immutability negative tests are included. Independent postmerge main push CI was not verified.
 
 **Safety:** Binding reference is *caller-declared*, not a vendor mapping attestation. `mapping_independently_verified`, `vendor_entitlement_independently_verified`, `may_ingest_real_data`, `may_persist_real_data`, and `may_trade` are always FALSE. An empty/no binding or a mismatched stream fails closed. Existing 5→20→1→20 cache tests unchanged, and no authenticated source calls, real Drive objects, or broker orders were added. The historical M2/P0.10 rollback reference `7f0904e` remains. P2.2-B (price-content vs provenance/lineage) is **NEXT / NOT STARTED**; P2.2-C..E remain deferred. Canonical native Handoff v0.42 §52 and QA v0.57 §72 provide the latest checkpoint.
+
+## 8. Addendum — P2.2-B dual digest and lineage receipt (2026-11-08)
+
+**Source PR #56** [Forex synthetic evidence lineage](https://github.com/ngluonghoa/forex-trading-1-0/pull/56) MERGED squash SHA `92729806442cdd6b2abe6287f8995d5b1a588b61` from base `260225a4cbdad9f30c238e49c82cafc56ed37e15`. Exactly two additive paths: `src/forex_trading/synthetic_evidence_lineage.py` and `tests/test_synthetic_evidence_lineage.py`. No existing source, cache storage schema, scan orchestrator, native 02 Master Spec or dependencies changed. The earlier section's P2.2-B "proposed/not started" is historical; this addendum is the latest status.
+
+**New pure synthetic interface:** `price_content_digest` hashes partition + candle window/side/TF, normalized numeric Decimal OHLC, lifecycle/quality/coverage, while `provenance_digest` additionally hashes complete *caller-declared* Observation stream/endpoint/revision/raw hash/first-known/retrieval/licence claim and snapshot checked_at/head. `compare_synthetic_evidence` returns UNCHANGED / LINEAGE_ONLY / CAUSAL_REPLAY_REVIEW / PRICE_DIRTY / BLOCKED. It proposes no indicator recalculation/price chunk write for metadata-only changes, earliest dirty candle on actual valid price change, and independent causal replay review when first-known or revision changes despite identical OHLC. Source rights REVOKED/EXPIRED/DENIED always block reuse. P2.2-A binding rejects mismatched provider/product/stream/endpoint/licence claims. All live-data rights and trade permission flags remain false.
+
+**Optional synthetic lineage fixture:** frozen `SyntheticLineageEvent` with SHA256 parent, generation and decision-time/clock checks, verified within a supplied complete in-memory chain. This is NOT authenticated provider provenance, persistent storage, external trusted witness, actual rollback security, production cache write, source licensing proof, historical Backtest or trading.
+
+**CI and acceptance:** [GitHub Actions PR run 42397147771](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42397147771) completed SUCCESS, independently inspected Python 3.11 and 3.12 logs **Ran 502 tests OK** in each (476 old + 26 new). Original M2/P0.10 `7f0904e` rollback remains immutable; cumulative source/test changes since it are 11 explicit approved files (7 P2.1 + 2 P2.2-A + 2 P2.2-B). No withdrawn M2/P0.11–14 prototypes restored. Postmerge main push CI not independently verified.
+
+**Latest governance:** native 00 Handoff v0.43 §53, QA v0.58 §73, 02 Master Spec v0.11 §26 unchanged. **NEXT** independently scoped P2.2-C BID/ASK identity/product/temporal join; P2.2-D first-known availability, P2.2-E session/DST/tick-volume/recovery remain not started. Live vendor feed, real Drive FX cache, KMS/CAS, OOS and broker release blocked.
