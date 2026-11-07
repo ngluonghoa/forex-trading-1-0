@@ -1,16 +1,14 @@
 # Forex Trading 1.0
 
-## Current checkpoint — P2.2-B dual price/provenance digest (2026-11-08)
+## Current checkpoint — Release Engineering RE1–RE3 (2026-11-08)
 
-**P2.2-B source code MERGED:** [PR #56](https://github.com/ngluonghoa/forex-trading-1-0/pull/56) squash commit `92729806442cdd6b2abe6287f8995d5b1a588b61`. Only TWO new files: `src/forex_trading/synthetic_evidence_lineage.py` and `tests/test_synthetic_evidence_lineage.py` (26 new tests). The pure synthetic-only `price_content_digest` distinguishes normalized numeric price/bar-structure input from `provenance_digest` covering caller-claimed observation revision, source stream, endpoint, first-known, retrieval timestamp, rights scope, checked time and head claim. A read-only synthetic review classifies UNCHANGED, LINEAGE_ONLY, CAUSAL_REPLAY_REVIEW, PRICE_DIRTY or BLOCKED. Explicit REVOKED/EXPIRED/DENIED rights status blocks reuse even when prices are equal. Immutable hash-linked lineage events are **in-memory fixtures**, NOT a trusted, durable rollback witness or actual Drive cache.
+**Engineering verification added; NO Forex product release.** Three separately reviewed PRs improve maintainability and version/rollback inspection: [RE1 #58](https://github.com/ngluonghoa/forex-trading-1-0/pull/58) `b476112e71655e7de1297c957d55ee7b952a8c44` adds immutable release-candidate/9-gate/12-profile read-only rollback contracts (16 tests); [RE2 #59](https://github.com/ngluonghoa/forex-trading-1-0/pull/59) `30bc7e2145f9a6fb04822e222b7cfd005931fcae` adds CI-built wheel content/version checks and SHA256 receipts (7 tests); [RE3 #60](https://github.com/ngluonghoa/forex-trading-1-0/pull/60) `917cff60c1e1100319d43d771971af5ebe27f1ab` requires two no-cache wheel builds under one SOURCE_DATE_EPOCH per Python with matching SHA256 (+3 tests). Independent PR GitHub Actions [42399783655](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42399783655) verified **528/528 PASS for EACH Python 3.11/3.12**, and all same-run wheel builds matched SHA `d6b8e5e3dc45c31ad48290386f7817f21886f5c47e47e44d1aaef4c19a1869a6`. This is narrow CI-run repeatability, NOT signed/cross-host reproducibility, actual release, Last Known Good or operational restore.
 
-**Verified PR CI:** [GitHub Actions 42397147771](https://github.com/ngluonghoa/forex-trading-1-0/actions/runs/42397147771) Python 3.11 and 3.12 EACH passed **502/502 synthetic tests** (previous 476 + 26). This is a contract/planning capability, **not** actual L2–L5 indicator incremental recomputation, provider I/O savings or source licensing. Existing source/cache schema, `CandleSnapshot.fingerprint`, scanner, stored Drive objects, application behavior and Master Spec are unchanged. Postmerge main push CI not independently verified.
+**Existing Forex P2.1 and P2.2-A/B source remains intact.** [P2.2-B #56](https://github.com/ngluonghoa/forex-trading-1-0/pull/56) `92729806442cdd6b2abe6287f8995d5b1a588b61` added synthetic-only dual price and declared-source-provenance digests/lineage proposals. [P2.2 gap review](docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md). NEXT market-data contract **P2.2-C** BID/ASK product/provider/time alignment; RE4 code quality/security gates also pending.
 
-**Architecture progression:** P2.1-A+B (selection/store modularization), P2.2-A (synthetic stream binding), P2.2-B (dual price/provenance read-only classifier) are implemented by separate PRs. [P2.2 data contract review and receipts](docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md). **NEXT P2.2-C** is a separate read-only broker-product/provider/time-aligned BID/ASK and quote identity evidence contract. P2.2-D first-known independent availability and P2.2-E FX calendar/volume/recovery remain future.
+**Rollback provenance:** Original immutable M2/P0.10 archival source `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` remains. Current code/test/CI/tooling differs in 17 independently scoped paths (P2.1, P2.2, RE1–RE3). Withdrawn M2/P0.11–14 prototypes remain absent; 02 Master Spec v0.11 §26 unchanged. [Release engineering evidence and remaining gates](docs/RELEASE_ENGINEERING_STATUS_RE1_RE3.md) and [Release/Rollback design standard](docs/RELEASE_ROLLBACK.md).
 
-**Immutable historical rollback:** Original M2/P0.10 PR #28 source `7f0904eefad9afe3da7bbaab522d8c59b6847c9e` is archival checkpoint, not current main. Exactly **eleven intentionally changed/added source/test paths** since this checkpoint (7 P2.1, 2 P2.2-A, 2 P2.2-B). Withdrawn M2/P0.11–M2/P0.14 code remains absent; native 02 Master Spec v0.11 §26 unchanged.
-
-**Operational gates BLOCKED:** Real authenticated native FX BID/ASK feed and rights/retention, production Google Drive market cache, KMS/CAS/independent witness, historical Backtest/OOS, live scanner and brokerage. No actual trades or automatic market polling performed.
+**PRODUCTION BLOCKED:** No owner-approved release/LKG, actual signed package distribution, approved restore drill, authenticated licensed FX BID/ASK, real production Drive market cache, protected keys/CAS, causal Backtest/OOS, live scanner or broker orders. `pyproject.toml` version `0.1.0` is a Python package development version only. PR CI is verified, independent postmerge main-push CI and GitHub branch protection are not yet verified through current connector.
 
 ## Engineering model
 - **GitHub private repo**: canonical code, small PRs, commit history and GitHub Actions CI.
@@ -20,14 +18,14 @@
 - **M15001-FG-3**: NOT authorized for Forex project work.
 
 ## Canonical documents
-- [00 Master Handoff v0.43 §53 — P2.2-B dual digest; rollback §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
+- [00 Master Handoff v0.44 §54 — RE1–RE3 engineering; rollback §48/§40](https://docs.google.com/document/d/1_F8yvAw5uBj25J5g7OUhhKyBgO2aO65qPtme4yHHgAE/edit)
 - [02 Master Spec v0.11 §26 (restored active design)](https://docs.google.com/document/d/1k5vidJ5mPjCFCDYxuzJ29DSfOaBicZUzXLOX4jtscy4/edit)
 - [04 Zone taxonomy v0.5](https://docs.google.com/document/d/1iMDKhYjJj9c3WbRMLbMywBuEkDdTuF_eR9lc7rNzU-c/edit)
-- [06 QA v0.58 §73](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
+- [06 QA v0.59 §74](https://docs.google.com/document/d/19CGNHVw1QqnTifmtf1Xu5bst0IAbEWLhQlgOoVzfYZg/edit)
 - [10 Version / Release / Rollback policy](https://docs.google.com/document/d/19z5m73GJgCu5AYCfio0JJGWHbcPJMwm___djxSq-GtA/edit)
 
 ## Full-text source snapshots
-- [00 Master Handoff v0.43 §53](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
+- [00 Master Handoff v0.44 §54](docs/source-snapshots/00_MASTER_HANDOFF.txt) and [02 Master Spec v0.11 §26 (restored active design)](docs/source-snapshots/02_MASTER_SPEC.txt) are **point-in-time text snapshots**, not authoritative editable copies. See [revision/verification manifest](docs/HANDOFF_SNAPSHOT_MANIFEST.md).
 
 ## What exists
 - Typed immutable quote, timestamp, catalog, signal-state and version-profile contracts.
