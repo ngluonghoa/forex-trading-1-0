@@ -17,6 +17,8 @@ jobs:
     steps:
       # Explicit immutable commits verified against official actions/* refs.
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0 # full local refs for historical scanner
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: ${{ matrix.python-version }}
@@ -52,10 +54,16 @@ jobs:
         run: python -m pip install bandit==1.9.4 pip-audit==2.10.1
       - name: Scan tracked repository text for high-confidence credential signatures
         run: python tools/check_repo_secrets.py
+      - name: Block high-confidence credentials in reachable Git history
+        run: python -m tools.check_git_history_secrets
       - name: Audit Python source and tooling for medium/high security findings
         run: bandit -r src tools --severity-level medium --confidence-level medium
       - name: Check declared project dependencies against live vulnerability advisories
         run: pip-audit --progress-spinner off .
+      - name: Audit resolved PEP 517 build requirement range (not an exact build lock)
+        run: |
+          python tools/write_build_audit_requirements.py .ci-build-requirements.txt
+          pip-audit --progress-spinner off --requirement .ci-build-requirements.txt
       - name: Validate current CI Python environment
         run: python -m pip check
       - name: Build wheel twice with a fixed source timestamp (NOT a release)
