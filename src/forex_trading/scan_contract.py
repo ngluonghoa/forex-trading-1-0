@@ -56,6 +56,7 @@ def plan_scan_selection(
     if any(pair not in universe for pair in requested_pairs):
         raise ValueError("PAIR_NOT_IN_APPROVED_CATALOG")
 
+    selected: tuple[str, ...]
     if mode is ScanMode.SINGLE:
         if len(requested_pairs) != 1:
             raise ValueError("SINGLE_REQUIRES_EXACTLY_ONE_PAIR")
