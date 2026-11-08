@@ -17,6 +17,12 @@
 - Correction is a mechanical three-site local name replacement only: `o, h, l, c` to `o, h, low, c`, JSON `str(l)` to `str(low)`, DTO constructor argument `l` to `low`. This preserves the exact same OHLC order and digest/DTO semantics.
 - Do not ignore or globally suppress E741. Verify rerun and type checks before merge; any new diagnostics require separate investigation.
 
+## Second negative CI finding and correction
+
+- Second PR #64 attempt Actions 42443832566: all Ruff checks PASS on both Python versions after the E741 local-rename fix; strict mypy discovered two existing assignment type errors in `scan_contract.py:66,70`. Mypy inferred the `selected` local variable too narrowly from the `len(requested_pairs) == 1` SINGLE branch, conflicting with CUSTOM/ALL variable-length selections.
+- Add `selected: tuple[str, ...]` before the unchanged mode branches. This constrains the static type without changing any runtime assignment, selected pair ordering, validation, scanning, cached data or business behavior. No mypy ignore or config relaxation.
+- Rerun full existing synthetic tests, strict type checks, Ruff and wheel parity before merge.
+
 ## Evidence and failure handling
 
 GitHub Actions PR and postmerge main logs must independently show the exact strict-type and Ruff commands PASS in each Python job, baseline unittests PASS and twice-built wheel SHA parity. If either job fails, do not merge; inspect source/CI diagnostics and make an isolated reviewed fix, never globally suppress errors or edit unrelated domain logic. For a clean revert, revert this PR's CI and this audit doc without touching stateful caches, broker state, previously merged RE4a, or historical M2/P0.10 rollback archive.
