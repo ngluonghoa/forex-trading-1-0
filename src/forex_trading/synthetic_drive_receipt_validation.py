@@ -151,7 +151,7 @@ def validate_synthetic_drive_connector_smoke(
         _reject("NOT_APPROVED_SYNTHETIC_MANIFEST")
     if (data["chunk_drive_file_id"] != chunk.file_id
         or data["chunk_sha256"] != chunk_sha
-        or data["chunk_md5"] != md5(chunk.body).hexdigest()
+        or data["chunk_md5"] != md5(chunk.body, usedforsecurity=False).hexdigest()
         or type(data["chunk_size_bytes"]) is not int
         or data["chunk_size_bytes"] != len(chunk.body)):
         _reject("MANIFEST_CHUNK_REFERENCE_INTEGRITY_FAILURE")
