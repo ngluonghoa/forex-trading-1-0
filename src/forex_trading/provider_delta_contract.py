@@ -225,15 +225,15 @@ def parse_synthetic_oanda_candles(
             quote = row.get(wire)
             if not isinstance(quote, Mapping):
                 raise ValueError("BID_ASK_BOTH_REQUIRED")
-            o, h, l, c = (_price(quote.get(key), f"{wire.upper()}_{key.upper()}")
-                           for key in ("o", "h", "l", "c"))
+            o, h, low, c = (_price(quote.get(key), f"{wire.upper()}_{key.upper()}")
+                             for key in ("o", "h", "l", "c"))
             serialized = dumps(
                 {"start": row["time"], "side": side.value,
-                 "ohlc": [str(o), str(h), str(l), str(c)], "volume": volume},
+                 "ohlc": [str(o), str(h), str(low), str(c)], "volume": volume},
                 sort_keys=True, separators=(",", ":"),
             )
             digest = sha256(serialized.encode("utf-8")).hexdigest()
-            sides[side] = StagedQuoteBar(side, start, end, o, h, l, c, digest)
+            sides[side] = StagedQuoteBar(side, start, end, o, h, low, c, digest)
         pairs.append(StagedCandlePair(start, end, sides[BarSide.BID],
                                       sides[BarSide.ASK], volume))
     serialized_response = dumps(payload, sort_keys=True, separators=(",", ":"))
