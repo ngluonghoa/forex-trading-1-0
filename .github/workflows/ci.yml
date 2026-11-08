@@ -48,6 +48,14 @@ jobs:
             src/forex_trading/scan_contract.py \
             src/forex_trading/versioning.py \
             src/forex_trading/release_readiness.py
+      - name: Install pinned RE4c security audit tools (CI only)
+        run: python -m pip install bandit==1.9.4 pip-audit==2.10.1
+      - name: Scan tracked repository text for high-confidence credential signatures
+        run: python tools/check_repo_secrets.py
+      - name: Audit Python source and tooling for medium/high security findings
+        run: bandit -r src tools --severity-level medium --confidence-level medium
+      - name: Check declared project dependencies against live vulnerability advisories
+        run: pip-audit --progress-spinner off .
       - name: Validate current CI Python environment
         run: python -m pip check
       - name: Build wheel twice with a fixed source timestamp (NOT a release)
