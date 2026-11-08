@@ -164,7 +164,7 @@ class SyntheticGoogleDriveBlobPort:
             raise ValueError("DRIVE_DOWNLOAD_FAILED:" + str(response.status))
         content = response.body
         if (len(content) != expected_size
-            or md5(content).hexdigest() != expected_md5
+            or md5(content, usedforsecurity=False).hexdigest() != expected_md5
             or sha256(content).hexdigest() != expected_sha):
             raise ValueError("DRIVE_READBACK_CONTENT_CORRUPT")
 
@@ -178,7 +178,7 @@ class SyntheticGoogleDriveBlobPort:
             or len(fixture_payload) > _MAX_BYTES):
             raise ValueError("ONLY_BOUNDED_SYNTHETIC_FIXTURE_BYTES_ALLOWED")
         digest = sha256(fixture_payload).hexdigest()
-        check = md5(fixture_payload).hexdigest()
+        check = md5(fixture_payload, usedforsecurity=False).hexdigest()
         name = self._name(partition_fingerprint, digest)
         metadata = self._list_one(name)
         created = False
